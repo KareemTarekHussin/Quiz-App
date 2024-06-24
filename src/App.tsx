@@ -1,35 +1,63 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Login from "./Modules/AuthenticationModule/components/Login/Login";
+import ResetPass from "./Modules/AuthenticationModule/components/ResetPass/ResetPass";
+import ChangePass from "./Modules/AuthenticationModule/components/ChangePass/ChangePass";
+import Register from "./Modules/AuthenticationModule/components/Register/Register";
+import ForgetPass from "./Modules/AuthenticationModule/components/ForgetPass/ForgetPass";
+import Dashboard from "./Modules/DashboardModule/components/Dashboard";
+import Groups from "./Modules/GroupsModule/components/Groups";
+import Questions from "./Modules/QuestionsModule/components/Questions";
+import Quizes from "./Modules/QuizesModule/components/Quizes";
+import ResultsTutor from "./Modules/ResultsModule/components/ResultsTutor";
+import StudentsList from "./Modules/StudentsModule/components/StudentsList";
+import NotFound from "./Modules/SharedModule/components/NotFound";
+import AuthLayout from "./Modules/SharedModule/components/AuthLayout";
+import MasterLayout from "./Modules/SharedModule/components/MasterLayout";
+import { ToastContainer } from "react-toastify";
+import ProtectedRoute from "./Modules/SharedModule/components/ProtectedRoute";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const routes = createBrowserRouter([
+    {
+      path: "/",
+      element: <AuthLayout />,
+      errorElement: <NotFound />,
+      children: [
+        { path: "", element: <Login /> },
+        { path: "login", element: <Login /> },
+        { path: "register", element: <Register /> },
+        { path: "forgetpass", element: <ForgetPass /> },
+        { path: "resetpass", element: <ResetPass /> },
+        { path: "changepass", element: <ChangePass /> },
+      ],
+    },
+    {
+      path: "DashBoard",
+      element: 
 
+      <MasterLayout />
+      
+      ,
+      errorElement: <NotFound />,
+      children: [
+        { path: "", element: <Dashboard /> },
+        { path: "groups", element: <Groups /> },
+        { path: "questions", element: <Questions /> },
+        { path: "quizes", element: <Quizes /> },
+        { path: "students", element: <StudentsList /> },
+        { path: "results", element: <ResultsTutor /> },
+      ],
+    },
+  ]);
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="App">
+        <ToastContainer />
+        <RouterProvider router={routes} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
