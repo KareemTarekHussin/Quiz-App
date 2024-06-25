@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mui/icons-material": "^5.15.20",
     "@reduxjs/toolkit": "^2.2.5",
     "axios": "^1.7.2",
     "formik": "^2.4.6",
