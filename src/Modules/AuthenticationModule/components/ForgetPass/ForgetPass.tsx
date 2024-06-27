@@ -18,30 +18,34 @@ export default function ForgetPass() {
                 Forgot Password
               </p>
               <div>
-                <form className="space-y-4 font-[sans-serif] text-[#333] max-w-md mx-auto">
+                <form className="space-y-4 font-[sans-serif] text-[#333]  mx-auto mt-10">
+                  <div><p className="text-white">Email address</p>
                   <div className="relative flex items-center">
                     <EmailIcon className="absolute left-4 text-[#F5F5F5]" />
                     <input
                       type="email"
                       placeholder="Type Your email"
-                      className="pl-12 px-4 py-3 bg-[#0D1321] focus:bg-transparent w-full text-sm border outline-[#ccc] rounded-xl transition-all"
+                      className="pl-12 px-4 py-3 bg-[#0D1321] focus:bg-transparent w-full text-sm border outline-[#ccc] rounded-xl transition-all text-white"
                     />
-                  </div>
+                  </div></div>
+                  
+                 
+               
                   <button
                     type="button"
-                    className="px-6 py-2.5 !mt-8 font-nunito font-bold text-sm border bg-[#F5F5F5] hover:bg-[#000] text-black rounded-lg active:bg-[#000]"
+                    className="px-6 py-2.5 !mt-20 font-nunito font-bold text-sm border bg-[#F5F5F5] text-black rounded-lg transition-all duration-200 hover:bg-[#000] hover:text-white active:bg-[#000] flex items-center"
                   >
-                    Send Email <CheckCircleIcon />
+                    Send Email <CheckCircleIcon className="ml-2" />
                   </button>
                 </form>
               </div>
               {/* input */}
               {/* button */}
               {/* navigation to login */}
-              <div className="grid justify-items-end">
+              <div className="grid justify-items-end mt-60">
                 <div>
                   Login?  
-                  <span className="text-[#C5D86D] font-semibold">
+                  <span className="text-[#C5D86D] font-semibold underline">
                     <Link to="/login">
                       Click here
                     </Link>
