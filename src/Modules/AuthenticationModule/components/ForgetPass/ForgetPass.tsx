@@ -5,6 +5,7 @@ import image from "../../../../assets/images/Image.png";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import EmailIcon from '@mui/icons-material/Email';
 import { Link, useNavigate } from "react-router-dom";
+import { apiPuplic } from "../../../../utils/axiosinst";
 
 interface FormValues {
   email: string;
@@ -19,7 +20,9 @@ export default function ForgetPass() {
     },
     onSubmit: async (values) => {
       try {
-        const response = await axios.post("https://upskilling-egypt.com:3005/api/auth/forgot-password", {
+        const response = await 
+        apiPuplic.post("auth/forgot-password", 
+          {
           email: values.email
         });
         console.log(response.data);

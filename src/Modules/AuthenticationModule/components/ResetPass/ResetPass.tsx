@@ -7,6 +7,7 @@ import KeyIcon from '@mui/icons-material/Key';
 import { useFormik } from "formik";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { apiPuplic } from "../../../../utils/axiosinst";
 interface FormValues {
   email: string;
   otp: string;
@@ -24,7 +25,7 @@ export default function ResetPass() {
     },
     onSubmit: async (values) => {
       try {
-        const response = await axios.post("https://upskilling-egypt.com:3005/api/auth/reset-password", {
+        const response = await apiPuplic.post("/auth/reset-password", {
           email: values.email,
           otp: values.otp,
           password: values.password
