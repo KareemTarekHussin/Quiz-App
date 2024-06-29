@@ -5,7 +5,6 @@ import EmailIcon from '@mui/icons-material/Email';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import KeyIcon from '@mui/icons-material/Key';
 import { useFormik } from "formik";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { apiPuplic } from "../../../../utils/axiosinst";
 interface FormValues {
@@ -34,7 +33,6 @@ export default function ResetPass() {
        navigate('/login')
       } catch (error) {
         console.error(error);
-        // Handle error response
       }
     }
   });

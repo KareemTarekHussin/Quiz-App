@@ -1,5 +1,4 @@
 import { useFormik } from "formik";
-import axios from "axios";
 import logo from "../../../../assets/images/logo.png";
 import image from "../../../../assets/images/Image.png";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
