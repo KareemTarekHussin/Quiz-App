@@ -30,7 +30,7 @@ export default function Login() {
 
       navigate("/DashBoard");
       localStorage.setItem("token", response.data.data.accessToken);
-    } catch (error: any) {
+    } catch (error) {
       const err = getErrorMessage(error);
       // toast("error", err);
     }

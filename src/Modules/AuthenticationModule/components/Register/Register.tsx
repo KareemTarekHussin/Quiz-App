@@ -1,10 +1,10 @@
-import AuthContainer from "../../../../components/AuthContainer/AuthContainer";
-import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getErrorMessage } from "../../../../utils/Error";
-import axios from "axios";
-
+// import { authRegister } from "../../../../Redux/AuthSlice/AuthSlice";
+import { useDispatch } from "react-redux";
+import { register } from "../../../../redux/AuthSlice/Services";
+import AuthContainer from "../../../../components/AuthContainer/AuthContainer";
+import { useNavigate } from "react-router-dom";
 
 const RegisterSchema = Yup.object().shape({
   first_name: Yup.string().required("first name is required"),
@@ -22,21 +22,24 @@ interface FormValueProps {
   password: string;
 }
 
+// try {
+//     const response = await axios.post(
+//       `https://upskilling-egypt.com:3005/api/auth/register`,
+//       user
+//     );
+//     console.log(response.data.message);
+
+//   } catch (error) {
+//     const err = getErrorMessage(error);
+//   }
+
 export default function Register() {
-
-
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleSubmit = async (user: FormValueProps) => {
-    try {
-      const response = await axios.post(
-        `https://upskilling-egypt.com:3005/api/auth/register`,
-        user
-      );
-      console.log(response.data.message);
-
-    } catch (error) {
-      const err = getErrorMessage(error);
-      console.log(err);
+    const response = await dispatch(register(user));
+    if (response) {
+      navigate("/login");
     }
   };
 
@@ -153,9 +156,7 @@ export default function Register() {
               className="bg-white text-black font-semibold py-[8px] px-[20px] my-3 rounded"
             >
               Sign Up
-              <CheckCircleOutlineRoundedIcon
-                sx={{ color: "black", marginLeft: "5px" }}
-              />
+              <i className="fa-solid fa-user"></i>
             </button>
           </div>
         </form>
