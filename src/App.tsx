@@ -1,4 +1,6 @@
 import "./App.css";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Login from "./Modules/AuthenticationModule/components/Login/Login";
 import ResetPass from "./Modules/AuthenticationModule/components/ResetPass/ResetPass";
@@ -14,7 +16,6 @@ import StudentsList from "./Modules/StudentsModule/components/StudentsList";
 import NotFound from "./Modules/SharedModule/components/NotFound";
 import AuthLayout from "./Modules/SharedModule/components/AuthLayout";
 import MasterLayout from "./Modules/SharedModule/components/MasterLayout";
-import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./Modules/SharedModule/components/ProtectedRoute";
 
 function App() {
