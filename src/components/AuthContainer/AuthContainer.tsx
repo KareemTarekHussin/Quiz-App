@@ -14,15 +14,15 @@ export default function AuthContainer({ header, children }: AuthLayoutProps) {
 
   return (
     <>
-      <div className="min-h-screen bg-[#0D1321] text-white">
+      <div className="min-h-screen overflow-auto bg-[#0D1321] text-white">
         <div className="container">
           <div className="flex">
-            <div className="flex-1 h-screen pt-8">
+            <div className="flex-1 h-screen pt-5">
               <img src={logo} className="w-[150px]" alt="" />
-              <div className="mt-10">
+              <div className="mt-5">
                 <p className="text-[#C5D86D] text-2xl font-semibold">{header}</p>
                 {pathname === "/" || pathname === "/register" ? (
-                  <div className="flex gap-9 pt-10">
+                  <div className="flex gap-9 pt-7">
                     <Link to="/">
                       <div
                         className={`bg-[#333333] p-10 rounded-md text-center h-[150px] w-[150px] ${
@@ -61,7 +61,7 @@ export default function AuthContainer({ header, children }: AuthLayoutProps) {
                   </div>
                 ) : null}
               </div>
-              <div className="mt-5">{children}</div>
+              <div className="mt-3">{children}</div>
             </div>
             <div className="flex-1 hidden md:flex justify-end items-center h-screen">
               <img src={image} className="w-[80%]" alt="" />
