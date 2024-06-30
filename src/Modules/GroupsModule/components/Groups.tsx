@@ -28,30 +28,28 @@ export default function Groups() {
   }, []);
   return (
     <>
-        <div className="container p-5 border-2 rounded-md font-nunito">
-      <h1 className="text-2xl font-semibold">Groups list</h1>
-     
-        <div className="mt-5">
-          {groups.map(group => (
-            <div key={group._id} className="flex items-center justify-between p-5 border-2 rounded-md w-full md:w-[48%] mb-6 md:mb-0">
-              <div className="flex flex-col">
-                <h3 className="mb-1 text-xl">{group.name}</h3>
-                <p>No of students: {group.students.length}</p>
-              </div>
-              <div className="flex space-x-3">
-                <button className="mr-4" title="Edit">
-                  <EditIcon className="text-yellow-400 fill-yellow-500 hover:fill-yellow-700" />
-                </button>
-                <button className="mr-4" title="Delete">
-                  <DeleteIcon className="text-red-600 fill-red-500 hover:fill-red-700" />
-                </button>
-              </div>
-            </div>
-          ))}
+        <div className="w-full h-screen p-5 border-2 rounded-md font-nunito shadow-lg">
+  <h1 className="text-2xl font-semibold">Groups list</h1>
+  <div className="mt-5 flex flex-wrap">
+    {groups.map(group => (
+      <div key={group._id} className="flex items-center justify-between p-5 border-2 rounded-md w-full md:w-[48%] mb-6 md:mb-0">
+        <div className="flex flex-col">
+          <h3 className="mb-1 text-xl">{group.name}</h3>
+          <p>No of students: {group.students.length}</p>
         </div>
-     
-    </div>
-  );
+        <div className="flex space-x-3">
+          <button className="mr-4" title="Edit">
+            <EditIcon className="text-yellow-400 fill-yellow-500 hover:fill-yellow-700" />
+          </button>
+          <button className="mr-4" title="Delete">
+            <DeleteIcon className="text-red-600 fill-red-500 hover:fill-red-700" />
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+  
     </>
   );
 }
