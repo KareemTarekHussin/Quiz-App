@@ -1,17 +1,22 @@
-import { useEffect, useState } from "react";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import {
+  Checkbox,
+  ListItemText,
+  MenuItem,
+  // Select
+} from "@mui/material";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { Group } from "../../../interfaces/interfaces";
-import { useForm } from "react-hook-form";
-import AsyncSelect from "react-select/async";
+import Select from "react-select";
 
 export default function Groups() {
   const [groups, setGroups] = useState<Group[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState([]);
   const [students, setStudents] = useState([]);
-  const [value, setValue] = useState("");
   const getgroupslist = async () => {
     try {
       let response = await axios.get(
@@ -38,8 +43,11 @@ export default function Groups() {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      // console.log(response.data);
-      setStudents(response.data);
+      setStudents(
+        response.data.map((student) => {
+          return { value: student._id, label: student.first_name };
+        })
+      );
     } catch (error) {
       console.log(error);
     }
@@ -48,9 +56,18 @@ export default function Groups() {
     console.log(data);
 
     // try {
-    //   const response
+    //   const response = await axios.post(
+    //     "https://upskilling-egypt.com:3005/api/group",
+    //     data,
+    //     {
+    //       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    //     }
+    //   );
+    //   console.log(response);
+    //   setShowModal(false);
+    //   getgroupslist();
     // } catch (error) {
-
+    //   console.log(error);
     // }
   };
   let {
@@ -58,14 +75,12 @@ export default function Groups() {
     handleSubmit,
     formState: { errors },
     watch,
+    control,
   } = useForm();
 
-  const handleInputChange = (value) => {
-    setValue(value);
-  };
-  const handleChange = (selectedOption: any) => {
-    setSelectedOption(selectedOption);
-    console.log(selectedOption);
+  const handleChange = (e: any) => {
+    setSelectedOption(e);
+    console.log(e);
   };
   useEffect(() => {
     getgroupslist();
@@ -74,7 +89,6 @@ export default function Groups() {
   return (
     <>
       <div className="flex justify-end my-2">
-        
         <button
           className=" text-sm px-3 py-1 rounded-[50px] border-solid border-[1px]"
           type="button"
@@ -122,43 +136,60 @@ export default function Groups() {
                         <h1 className="bg-[#FFEDDF] inline-flex justify-center items-center rounded-lg py-1 w-44 ">
                           List Students
                         </h1>
-
-                        <AsyncSelect
-                          isMulti={true}
-                          className="w-full text-black"
-                          cacheOptions
-                          defaultOptions={false}
-                          getOptionLabel={(e) => e.first_name}
-                          getOptionValue={(e) => e._id}
+                        {/* <Select
+                          className="w-48"
+                          labelId="demo-multiple-checkbox-label"
+                          id="demo-multiple-checkbox"
+                          multiple
                           value={selectedOption}
-                          onInputChange={handleInputChange}
-                          {...register("students", {
-                            required: "Students is required",
-                          })}
-                          loadOptions={getStudunts}
                           onChange={handleChange}
-                        />
-                        {/* <select
-                        multiple={true}
+                          renderValue={(selected) => {
+                            selected.join(" ");
+                          }}
+                          {...register("students", {
+                            required: "students is required",
+                          })}
+                        >
+                          {students.map((student) => (
+                            <MenuItem key={student._id} value={student._id}>
+                              <Checkbox
+                                checked={selectedOption.includes(student._id)}
+                              ></Checkbox>
+
+                              <ListItemText
+                                primary={
+                                  student.first_name + " " + student.last_name
+                                }
+                              />
+                            </MenuItem>
+                          ))}
+                        </Select>
+                         */}
+                        <Controller control={control} 
                         
-                        className="px-2 rounded-r-md outline-none flex-1 border-none  bg-transparent py-1.5 pl-1 text-black placeholder:text-gray-400  sm:text-sm sm:leading-6"
-                        {...register("students", {
-                          required: "Students is required",
-                        })}
-                        onChange={handleChange}
-                      >
-                        {students.map((student) => (
-                          <option  value={student._id} key={student._id}>
-                            {student.first_name}
-                          </option>
-                        ))}
-                      </select> */}
+                        render={({field: {onchange,value}})=>{
+                          return (
+                            <Select
+                            isMulti
+                            className="w-full text-black"
+                            options={students}
+                            value={students.find((student)=> student._id === value)}
+                            onChange={(val)=> onchange(val.map((e)=> e.value))}
+                            //  onChange={handleChange}
+                            // {...register("students", {
+                            //   required: "students is required",
+                            // })}
+                          />
+                          )
+                        }}
+                        />
+                       
                       </div>
-                      {errors.students && (
+                      {/* {errors.students && (
                         <p className="text-[#ff0000]">
                           {errors.students.message}
                         </p>
-                      )}
+                      )} */}
 
                       <button
                         className=" px-2 py-1  text-black rounded-lg border text-[20px] "
