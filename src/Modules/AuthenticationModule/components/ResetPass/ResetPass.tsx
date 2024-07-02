@@ -1,9 +1,9 @@
 import logo from "../../../../assets/images/logo.png";
 import image from "../../../../assets/images/Image.png";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import EmailIcon from '@mui/icons-material/Email';
-import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
-import KeyIcon from '@mui/icons-material/Key';
+// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+// import EmailIcon from '@mui/icons-material/Email';
+// import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+// import KeyIcon from '@mui/icons-material/Key';
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { apiPuplic } from "../../../../utils/axiosinst";
@@ -52,7 +52,7 @@ export default function ResetPass() {
                   <div>
                     <p className="text-white">Your Email address</p>
                     <div className="relative flex items-center">
-                      <EmailIcon className="absolute left-4 text-[#F5F5F5]" />
+                      {/* <EmailIcon className="absolute left-4 text-[#F5F5F5]" /> */}
                       <input
                         type="email"
                         name="email"
@@ -66,7 +66,7 @@ export default function ResetPass() {
                   <div>
                     <p className="text-white">OTP</p>
                     <div className="relative flex items-center">
-                      <PhoneAndroidIcon className="absolute left-4 text-[#F5F5F5]" />
+                      {/* <PhoneAndroidIcon className="absolute left-4 text-[#F5F5F5]" /> */}
                       <input
                         type="text"
                         name="otp"
@@ -80,7 +80,7 @@ export default function ResetPass() {
                   <div>
                     <p className="text-white">Password</p>
                     <div className="relative flex items-center">
-                      <KeyIcon className="absolute left-4 text-[#F5F5F5]" />
+                      {/* <KeyIcon className="absolute left-4 text-[#F5F5F5]" /> */}
                       <input
                         type="password"
                         name="password"
@@ -95,7 +95,7 @@ export default function ResetPass() {
                     type="submit"
                     className="px-6 py-2.5 !mt-20 font-nunito font-bold text-sm border bg-[#F5F5F5] text-black rounded-lg transition-all duration-200 hover:bg-[#000] hover:text-white active:bg-[#000] flex items-center"
                   >
-                    Reset <CheckCircleIcon className="ml-2" />
+                    {/* Reset <CheckCircleIcon className="ml-2" /> */}
                   </button>
                 </form>
               </div>

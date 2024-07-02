@@ -1,9 +1,7 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-// import { authRegister } from "../../../../Redux/AuthSlice/AuthSlice";
-import { useDispatch } from "react-redux";
-import { register } from "../../../../redux/AuthSlice/Services";
 import AuthContainer from "../../../../components/AuthContainer/AuthContainer";
+import { useRegisterMutation } from "../../../../Redux/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const RegisterSchema = Yup.object().shape({
@@ -22,26 +20,19 @@ interface FormValueProps {
   password: string;
 }
 
-// try {
-//     const response = await axios.post(
-//       `https://upskilling-egypt.com:3005/api/auth/register`,
-//       user
-//     );
-//     console.log(response.data.message);
-
-//   } catch (error) {
-//     const err = getErrorMessage(error);
-//   }
-
 export default function Register() {
-  const dispatch = useDispatch();
+  const [register, { isLoading }] =
+    useRegisterMutation();
   const navigate = useNavigate();
+
   const handleSubmit = async (user: FormValueProps) => {
-    const response = await dispatch(register(user));
-    if (response) {
-      navigate("/login");
+    const response = await register(user);
+    if (response.data?.message === "Record created successfully") {
+      navigate("/");
     }
   };
+
+
 
   const formik = useFormik({
     initialValues: {
@@ -155,8 +146,14 @@ export default function Register() {
               type="submit"
               className="bg-white text-black font-semibold py-[8px] px-[20px] my-3 rounded"
             >
-              Sign Up
-              <i className="fa-solid fa-user"></i>
+              {isLoading ? (
+                "Sign Up..."
+              ) : (
+                <>
+                  Sign Up
+                  <i className="fa-solid fa-user"></i>
+                </>
+              )}
             </button>
           </div>
         </form>
