@@ -95,7 +95,7 @@ const logout= ()=>{
 {/* {loginUser?.userGroup=='Manager'?   */}
 <MenuItem 
             className="mb-2"
-              component={<Link to="users" />} 
+              component={<Link to="students" />} 
               icon={<i className="fa-solid fa-users"></i>}
             >
              Students
@@ -105,7 +105,7 @@ const logout= ()=>{
 
             <MenuItem 
             className="mb-2"
-              component={<Link to="projects" />} 
+              component={<Link to="groups" />} 
               icon={<i className="fa-solid fa-bars-progress"></i>}
             >
            Groups
@@ -113,7 +113,7 @@ const logout= ()=>{
 
             <MenuItem 
             className="mb-2"
-              component={<Link to="tasks" />} 
+              component={<Link to="quizes" />} 
               icon={<i className="fa-solid fa-tasks"></i>}
             >
           Quizes
@@ -121,7 +121,7 @@ const logout= ()=>{
 
             <MenuItem 
             className="mb-2"
-              onClick={handleShow}
+            component={<Link to="results" />} 
               icon={<i className="fa-solid fa-unlock"></i>}
             >
            Results
