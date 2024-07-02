@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthContainer from "../../../../components/AuthContainer/AuthContainer";
 import { useState } from "react";
 import * as Yup from "yup";
-import { useLoginMutation } from "../../../../Redux/auth/authSlice";
+import { useLoginMutation } from "../../../../redux/auth/authSlice";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()

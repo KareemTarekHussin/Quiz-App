@@ -1,7 +1,8 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import AuthContainer from "../../../../components/AuthContainer/AuthContainer";
-import { useRegisterMutation } from "../../../../Redux/auth/authSlice";
+// import { useRegisterMutation } from "../../../../redux/auth/authSlice";
+import { useRegisterMutation } from "../../../../redux/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const RegisterSchema = Yup.object().shape({
