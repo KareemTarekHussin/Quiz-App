@@ -1,21 +1,29 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-  Checkbox,
-  ListItemText,
-  MenuItem,
-  // Select
-} from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { Group } from "../../../interfaces/interfaces";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Select from "react-select";
+import { Group } from "../../../interfaces/interfaces";
+import UpdateGroupForm from "./UpdateGroupForm";
+interface GroupForm{
+  name: string;
+  first_name: string;
+  last_name: string;
+  _id: string;
+  students:string[]
+  
+}
+interface Input {
 
+  name: string;
+  students:string[]
+
+}
 export default function Groups() {
   const [groups, setGroups] = useState<Group[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectedOption, setSelectedOption] = useState([]);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [students, setStudents] = useState([]);
   const getgroupslist = async () => {
     try {
@@ -25,9 +33,9 @@ export default function Groups() {
           /// TODO: replace with auth instance
           // headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjdkNWE0N2M4NWYxZWNkYmMyNmY1ZDIiLCJlbWFpbCI6ImthcmVlbXRhcmVrMzIxOTUyMUBnbWFpbC5jb20iLCJyb2xlIjoiSW5zdHJ1Y3RvciIsImlhdCI6MTcxOTcwMTI1NywiZXhwIjoxNzIzMzAxMjU3fQ.kZj7UyaCdjgO22BOTy6x3a2vLjyq4x03t8Y9uNyciGg`,
-          },
-        }
+           Authorization: `Bearer ${localStorage.getItem("token")}`,
+          
+        }}
       );
       console.log(response.data);
       setGroups(response.data);
@@ -44,44 +52,66 @@ export default function Groups() {
         }
       );
       setStudents(
-        response.data.map((student) => {
-          return { value: student._id, label: student.first_name };
+        response.data.map((student:GroupForm) => {
+          return { value: student._id, label: student.first_name+ " " + student.last_name};
         })
       );
     } catch (error) {
       console.log(error);
     }
   };
-  const onSubmit = async (data) => {
+  const onSubmit:SubmitHandler<Input> = async (data) => {
     console.log(data);
 
-    // try {
-    //   const response = await axios.post(
-    //     "https://upskilling-egypt.com:3005/api/group",
-    //     data,
-    //     {
-    //       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    //     }
-    //   );
-    //   console.log(response);
-    //   setShowModal(false);
-    //   getgroupslist();
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const response = await axios.post(
+        "https://upskilling-egypt.com:3005/api/group",
+        data,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      console.log(response);
+      setShowModal(false);
+      getgroupslist();
+    } catch (error) {
+      console.log(error);
+    }
   };
+  const onEditSubmit = async (data:GroupForm)=>{
+    console.log(data);
+    
+    try {
+      const response = await axios.put(
+        `https://upskilling-egypt.com:3005/api/group/${groupId}`,
+        data,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      console.log(response);
+      setShowEditModal(false);
+      getgroupslist();
+    } catch (error) {
+      console.log(error);
+    }
+    
+
+  }
   let {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
     control,
-  } = useForm();
+  } = useForm<Input>();
+const [groupId,setGroupId]= useState('')
+const [groupName,setGroupName]= useState('')
+  const handleEdit = (id:string,name:string)=>{
+    setShowEditModal(true)
+    setGroupId(id)
+    setGroupName(name)
 
-  const handleChange = (e: any) => {
-    setSelectedOption(e);
-    console.log(e);
-  };
+  }
   useEffect(() => {
     getgroupslist();
     getStudunts();
@@ -101,8 +131,8 @@ export default function Groups() {
           <>
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
               <div className="relative w-auto my-6 mx-auto max-w-3xl">
-                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white">
-                  <div className="flex  justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white ">
+                  <div className="flex  justify-between p-5 border-b border-solid border-blueGray-200 rounded-t  ">
                     <h3 className="text-3xl font-semibold">
                       Set up a new Group
                     </h3>
@@ -129,67 +159,33 @@ export default function Groups() {
                           })}
                         />
                       </div>
-                      {errors.name && (
+                      {errors.name  && (
                         <p className="text-[#ff0000]">{errors.name.message}</p>
                       )}
                       <div className="my-7 flex border-2 rounded-lg">
                         <h1 className="bg-[#FFEDDF] inline-flex justify-center items-center rounded-lg py-1 w-44 ">
                           List Students
                         </h1>
-                        {/* <Select
-                          className="w-48"
-                          labelId="demo-multiple-checkbox-label"
-                          id="demo-multiple-checkbox"
-                          multiple
-                          value={selectedOption}
-                          onChange={handleChange}
-                          renderValue={(selected) => {
-                            selected.join(" ");
-                          }}
-                          {...register("students", {
-                            required: "students is required",
-                          })}
-                        >
-                          {students.map((student) => (
-                            <MenuItem key={student._id} value={student._id}>
-                              <Checkbox
-                                checked={selectedOption.includes(student._id)}
-                              ></Checkbox>
-
-                              <ListItemText
-                                primary={
-                                  student.first_name + " " + student.last_name
-                                }
-                              />
-                            </MenuItem>
-                          ))}
-                        </Select>
-                         */}
-                        <Controller control={control} 
                         
-                        render={({field: {onchange,value}})=>{
+                        <Controller control={control} 
+                        name={"students"}
+                        
+                        render={({field:{onChange,value}})=>{
                           return (
                             <Select
                             isMulti
                             className="w-full text-black"
                             options={students}
-                            value={students.find((student)=> student._id === value)}
-                            onChange={(val)=> onchange(val.map((e)=> e.value))}
-                            //  onChange={handleChange}
-                            // {...register("students", {
-                            //   required: "students is required",
-                            // })}
+                            value={students.find((student:any)=> student._id === value)}
+                            onChange={(val)=> onChange(val.map((e:any)=> e.value))}
+                          
                           />
                           )
                         }}
                         />
                        
                       </div>
-                      {/* {errors.students && (
-                        <p className="text-[#ff0000]">
-                          {errors.students.message}
-                        </p>
-                      )} */}
+                  
 
                       <button
                         className=" px-2 py-1  text-black rounded-lg border text-[20px] "
@@ -205,10 +201,38 @@ export default function Groups() {
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
           </>
         ) : null}
+           {showEditModal ? (
+          <>
+            <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+              <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white ">
+                  <div className="flex  justify-between p-5 border-b border-solid border-blueGray-200 rounded-t  ">
+                    <h3 className="text-3xl font-semibold">
+                      Update Group
+                    </h3>
+                    <div>
+                      <button
+                        className="  text-black text-3xl font-semibold  "
+                        onClick={() => setShowEditModal(false)}
+                      >
+                        <i className=" fa-solid fa-close text-black w-6  block "></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="p-[50px]">
+                  <UpdateGroupForm groupName={groupName} students={students} onEditSubmit={onEditSubmit}/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          </>
+        ) : null}
+
       </div>
       <div className="w-full  h-screen p-5 border-2 rounded-md font-nunito shadow-lg">
         <h1 className="text-2xl font-semibold">Groups list</h1>
-        <div className="mt-5 flex flex-wrap">
+        <div className="mt-5 flex flex-wrap gap-5">
           {groups.map((group) => (
             <div
               key={group._id}
@@ -220,10 +244,10 @@ export default function Groups() {
               </div>
               <div className="flex space-x-3">
                 <button className="mr-4" title="Edit">
-                  <EditIcon className="text-yellow-400 fill-yellow-500 hover:fill-yellow-700" />
+                  <EditIcon onClick={()=>handleEdit(group._id,group.name)} className="text-yellow-400 fill-yellow-500 hover:fill-yellow-700" />
                 </button>
-                <button className="mr-4" title="Delete">
-                  <DeleteIcon className="text-red-600 fill-red-500 hover:fill-red-700" />
+                <button  className="mr-4" title="Delete">
+                  <DeleteIcon  className="text-red-600 fill-red-500 hover:fill-red-700" />
                 </button>
               </div>
             </div>

@@ -46,7 +46,10 @@ export default function SideBar() {
       setCollapsedWidth("80px");
     }
   };
-
+const logout= ()=>{
+  localStorage.removeItem("token");
+  navigate("/")
+}
   useEffect(() => {
     updateCollapsedWidth();
     window.addEventListener('resize', updateCollapsedWidth);
@@ -126,7 +129,7 @@ export default function SideBar() {
 
             <MenuItem 
             className="mb-2"
-              // onClick={logout}
+              onClick={logout}
               icon={<i className="fa-solid fa-circle-left"></i>}
             >
               Logout
