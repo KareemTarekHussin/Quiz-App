@@ -1,6 +1,6 @@
 import  { useEffect, useState } from 'react';
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+// import EditIcon from "@mui/icons-material/Edit";
+// import DeleteIcon from "@mui/icons-material/Delete";
 import axios from 'axios';
 import { Group } from '../../../interfaces/interfaces';
 
@@ -39,12 +39,12 @@ export default function Groups() {
                 <p>No of students: {group.students.length}</p>
               </div>
               <div className="flex space-x-3">
-                <button className="mr-4" title="Edit">
+                {/* <button className="mr-4" title="Edit">
                   <EditIcon className="text-yellow-400 fill-yellow-500 hover:fill-yellow-700" />
                 </button>
                 <button className="mr-4" title="Delete">
                   <DeleteIcon className="text-red-600 fill-red-500 hover:fill-red-700" />
-                </button>
+                </button> */}
               </div>
             </div>
           ))}

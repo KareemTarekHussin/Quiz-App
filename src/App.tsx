@@ -1,6 +1,6 @@
 import "./App.css";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Login from "./Modules/AuthenticationModule/components/Login/Login";
 import ResetPass from "./Modules/AuthenticationModule/components/ResetPass/ResetPass";
@@ -35,11 +35,12 @@ function App() {
     },
     {
       path: "DashBoard",
-      element: 
+      element: (
+        <ProtectedRoute>
+          <MasterLayout />
+        </ProtectedRoute>
+      ),
 
-      <MasterLayout />
-      
-      ,
       errorElement: <NotFound />,
       children: [
         { path: "", element: <Dashboard /> },
