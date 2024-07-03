@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import AuthContainer from "../../../../components/AuthContainer/AuthContainer";
-// import { useRegisterMutation } from "../../../../redux/auth/authSlice";
 import { useRegisterMutation } from "../../../../redux/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 
