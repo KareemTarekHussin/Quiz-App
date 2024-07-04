@@ -1,5 +1,4 @@
 import { useFormik } from "formik";
-import axios from "axios";
 import logo from "../../../../assets/images/logo.png";
 import image from "../../../../assets/images/Image.png";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -32,7 +31,7 @@ export default function ForgetPass() {
       }
     }
   });
-
+ 
   return (
     <div className="min-h-screen bg-[#0D1321] text-white font-nunito">
       <div className="container">

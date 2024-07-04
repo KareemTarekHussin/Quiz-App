@@ -26,9 +26,8 @@ export default function ChangePass() {
       try {
         const response =  apiPuplic.post("/auth/change-password",values, {
           headers:{Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjZiNDU3NjI1N2I3NmM0YWRlMDBjODgiLCJyb2xlIjoidXNlciIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNzE4MzA2MjI0LCJleHAiOjE3MTk1MTU4MjR9.0STMLTHCp4neRXyeXBi8DzyJ9-JhOJ-M4MdVJhW7waA`}
- 
         });
-        console.log(response.data);
+             showToast("success", res.data.message);
         alert("sooooooo");
         navigate('/login')
       } catch (error) {
@@ -66,7 +65,7 @@ export default function ChangePass() {
                             className="pl-12 px-4 py-3 bg-[#0D1321] focus:bg-transparent w-full text-sm border outline-[#ccc] rounded-xl transition-all text-white"
                           />
                         </div>
-                        <div className="error text-white">
+                        <div className="error text-red-500">
                           <ErrorMessage name="password" component="span" />
 
                         </div>
@@ -81,7 +80,7 @@ export default function ChangePass() {
                             className="pl-12 px-4 py-3 bg-[#0D1321] focus:bg-transparent w-full text-sm border outline-[#ccc] rounded-xl transition-all text-white"
                           />
                         </div>
-                        <div className="error text-white">
+                       <div className="error text-red-500">
                           <ErrorMessage name="password_new" component="span" />
 
                         </div>
