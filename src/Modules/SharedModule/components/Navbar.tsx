@@ -1,4 +1,4 @@
-import { Bell, ChevronDown, Mail } from "lucide-react";
+import { Bell, ChevronDown, Mail,AlarmClockPlus } from "lucide-react";
 
 export default function Navbar() {
   return (
@@ -20,8 +20,11 @@ export default function Navbar() {
           border 
           border-black"
           >
-          Button
+            <AlarmClockPlus />
+
+         New Quiz
           </button>
+          
         </div>
 
         {/* Messages */}
@@ -32,7 +35,7 @@ export default function Navbar() {
             <Mail />
           </div>
 
-          {/* <div className="flex justify-center items-center bg-yellow-40 p-" >
+          {/* <div className="flex justify-center items-center bg-yellow-40 p-" >l
             <Bell />
           </div> */}
 
