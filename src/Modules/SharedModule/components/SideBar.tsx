@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import Style from './sidebar.module.css'
 import axios from 'axios';
 import { FieldError } from 'react-hook-form';
+import { BookOpenCheck, ChevronLeft, CircleHelp, ContactRound, House, Newspaper, UsersRound } from 'lucide-react';
 interface Placeholders {
   oldPassword: string;
   newPassword: string;
@@ -46,14 +47,15 @@ export default function SideBar() {
       setCollapsedWidth("80px");
     }
   };
-
+const logout= ()=>{
+  localStorage.removeItem("token");
+  navigate("/")
+}
   useEffect(() => {
     updateCollapsedWidth();
     window.addEventListener('resize', updateCollapsedWidth);
     return () => window.removeEventListener('resize', updateCollapsedWidth);
   }, []);
-
-  // ?============================================================================================
  
   const handleCollapse = () => {
     setIsCollapse(!isCollapse);
@@ -68,68 +70,97 @@ export default function SideBar() {
           collapsed={isCollapse} 
           // breakPoint={breakPoint}
           collapsedWidth={collapsedWidth}
-          className='border-0 bg-danger'
+          className=' bg-danger'
           >
-          <Menu className='my-5 py-5'>
+          <Menu className='my- py-'>
 
             <MenuItem
-              className='text-center d-none d-md-block'
+              className='text-cente flex items-center justify-center d-none h-20 d-md-block border-b-2 bg-yellow-10'
               onClick={handleCollapse}
             >
-              <div className="icon-container bg-warnin p-2 rounded-3" style={isCollapse? { transform: `scaleX(${iconRotation})` }: { transform: `scaleX(${iconRotation})` }}>
-                <i className="fa-solid fa-arrow-right"></i>
+              <div 
+                className="icon-container" 
+                style={
+                  isCollapse ? 
+                  { 
+                    transform: `scaleX(${iconRotation})`, 
+                    transition: 'transform 0.5s ease-out'
+                  } : 
+                  { 
+                    transform: `scaleX(${iconRotation})`,
+                    transition: 'transform 0.5s ease-out'
+                  }
+                }
+              >
+                <i className="fa-solid fa-arrow-right "></i>
               </div>
             </MenuItem>
             
+            
+
+
             <MenuItem 
-              className='mt-4 mb-2'
+              className='border-2 border-t-0 border-r-0 border-l-0'
               component={<Link to="" />} 
-              icon={<i className="fa-solid fa-house"></i>}
+              icon={
+                  <div className="bg-menuItem w-16 h-10 flex justify-center items-center rounded-md">
+                    <House className="w-10 h-9" />
+                  </div>
+                  }
             >
+              
               <span>Dashboard</span>
             </MenuItem>
 
-{/* {loginUser?.userGroup=='Manager'?   */}
-<MenuItem 
-            className="mb-2"
-              component={<Link to="users" />} 
-              icon={<i className="fa-solid fa-users"></i>}
+            {/* {loginUser?.userGroup=='Manager'?   */}
+            <MenuItem 
+            className=" border-2 border-t-0 border-l-0 border-r-0"
+              component={<Link to="students" />} 
+              icon={<div className="bg-menuItem w-16 h-10 flex justify-center items-center rounded-md">
+                <ContactRound className="w-10 h-9" />
+              </div>}
             >
              Students
-            </MenuItem>
-      
-          
+            </MenuItem>    
 
             <MenuItem 
-            className="mb-2"
-              component={<Link to="projects" />} 
-              icon={<i className="fa-solid fa-bars-progress"></i>}
+            className=" border-2 border-t-0 border-l-0 border-r-0 "
+              component={<Link to="groups" />} 
+              icon={<div className="bg-menuItem w-16 h-10 flex justify-center items-center rounded-md">
+                <UsersRound className="w-10 h-9" />
+              </div>}
             >
            Groups
             </MenuItem>
 
             <MenuItem 
-            className="mb-2"
-              component={<Link to="tasks" />} 
-              icon={<i className="fa-solid fa-tasks"></i>}
+            className=" border-2 border-t-0 border-l-0 border-r-0"
+              component={<Link to="quizes" />} 
+              icon={<div className="bg-menuItem w-16 h-10 flex justify-center items-center rounded-md">
+                <BookOpenCheck className="w-10 h-9" />
+              </div>}
             >
           Quizes
             </MenuItem>
 
             <MenuItem 
-            className="mb-2"
-              onClick={handleShow}
-              icon={<i className="fa-solid fa-unlock"></i>}
+            className=" border-2 border-t-0 border-l-0 border-r-0"
+            component={<Link to="results" />} 
+              icon={<div className="bg-menuItem w-16 h-10 flex justify-center items-center rounded-md">
+                <Newspaper className="w-10 h-9" />
+              </div>}
             >
            Results
             </MenuItem>
 
             <MenuItem 
-            className="mb-2"
+            className=" border-2 border-t-0 border-l-0 border-r-0"
               // onClick={logout}
-              icon={<i className="fa-solid fa-circle-left"></i>}
+              icon={<div className="bg-menuItem w-16 h-10 flex justify-center items-center rounded-md">
+                <CircleHelp className="w-10 h-9" />
+              </div>}
             >
-              Logout
+              Help
             </MenuItem>
 
             

@@ -90,7 +90,7 @@ export default function ChangePass() {
                         <div className="relative flex items-center">
                           <KeyIcon className="absolute left-4 text-[#F5F5F5]" />
                           <Field
-                            name="password_new"
+                            name="password_confirm"
                             placeholder="confirm Password"
                             className="pl-12 px-4 py-3 bg-[#0D1321] focus:bg-transparent w-full text-sm border outline-[#ccc] rounded-xl transition-all text-white"
                           />

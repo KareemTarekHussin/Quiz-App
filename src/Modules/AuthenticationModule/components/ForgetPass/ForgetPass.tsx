@@ -1,8 +1,8 @@
 import { useFormik } from "formik";
 import logo from "../../../../assets/images/logo.png";
 import image from "../../../../assets/images/Image.png";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import EmailIcon from '@mui/icons-material/Email';
+// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+// import EmailIcon from '@mui/icons-material/Email';
 import { Link, useNavigate } from "react-router-dom";
 import { apiPuplic } from "../../../../utils/axiosinst";
 
@@ -47,7 +47,7 @@ export default function ForgetPass() {
                   <div>
                     <p className="text-white">Email address</p>
                     <div className="relative flex items-center">
-                      <EmailIcon className="absolute left-4 text-[#F5F5F5]" />
+                      {/* <EmailIcon className="absolute left-4 text-[#F5F5F5]" /> */}
                       <input
                         type="email"
                         name="email"
@@ -62,7 +62,8 @@ export default function ForgetPass() {
                     type="submit"
                     className="px-6 py-2.5 !mt-20 font-nunito font-bold text-sm border bg-[#F5F5F5] text-black rounded-lg transition-all duration-200 hover:bg-[#000] hover:text-white active:bg-[#000] flex items-center"
                   >
-                    Send Email <CheckCircleIcon className="ml-2" />
+                    Send Email 
+                     {/* <CheckCircleIcon className="ml-2" /> */}
                   </button>
                 </form>
               </div>

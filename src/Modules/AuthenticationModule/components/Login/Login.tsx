@@ -4,9 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthContainer from "../../../../components/AuthContainer/AuthContainer";
 import { useState } from "react";
 import * as Yup from "yup";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { getErrorMessage } from "../../../../utils/Error";
+import { useLoginMutation } from "../../../../redux/auth/authSlice";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -19,20 +17,14 @@ type AuthInputs = {
   password: string;
 };
 export default function Login() {
+  const [login, { isLoading }] = useLoginMutation();
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
-  const onSubmit = async (data: AuthInputs) => {
-    try {
-      const response = await axios.post(
-        "https://upskilling-egypt.com:3005/api/auth/login",
-        data
-      );
-
+  const onSubmit = async (user: AuthInputs) => {
+    const response = await login(user);
+    console.log(response);
+    if (response.data?.message === "Login Success") {
       navigate("/DashBoard");
-      localStorage.setItem("token", response.data.data.accessToken);
-    } catch (error) {
-      const err = getErrorMessage(error);
-      // toast("error", err);
     }
   };
   const formik = useFormik<AuthInputs>({
@@ -100,8 +92,14 @@ export default function Login() {
               type="submit"
               className="bg-white my-5 px-6 py-2 text-black font-semibold rounded-md"
             >
-              Sign In
-              <i className="fa-solid fa-check bg-black rounded-full text-white p-1 mx-1"></i>
+              {isLoading ? (
+                "Signing In..."
+              ) : (
+                <>
+                  Sign In
+                  <i className="fa-solid fa-check bg-black rounded-full text-white p-1 mx-1"></i>
+                </>
+              )}
             </button>
             <div className="my-5">
               <h1>
