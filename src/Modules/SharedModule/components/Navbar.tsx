@@ -11,19 +11,21 @@ export default function Navbar() {
           <h1 className="font-semibold" >Groups</h1>
 
           <button 
-          className="
-          rounded-full
-          bg-transparent 
-          font-semibold 
-          py-2 
-          px-4 
-          border 
-          border-black"
-          >
-            <AlarmClockPlus />
-
-         New Quiz
-          </button>
+  className="
+    flex 
+    items-center 
+    rounded-full 
+    bg-transparent 
+    font-semibold 
+    py-2 
+    px-4 
+    border 
+    border-black
+  "
+>
+  <AlarmClockPlus className="mr-2" />
+  New Quiz
+</button>
           
         </div>
 
@@ -47,11 +49,6 @@ export default function Navbar() {
           <div className="flex justify-center items-center bg-yellow-40 p-" >
             <Bell />
           </div>
-
-          {/* <div className="flex justify-center items-center bg-yellow-40 p-" >
-            <Bell />
-          </div> */}
-
         </div>
 
             {/* Information */}
