@@ -5,6 +5,12 @@ import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Select from "react-select";
 import { Group } from "../../../interfaces/interfaces";
+import {
+  useAddGroupMutation,
+  useDeleteGroupMutation,
+  useGetGroupsQuery,
+  useUpdateGroupMutation,
+} from "../../../redux/Groups/groupSlice";
 import UpdateGroupForm from "./UpdateGroupForm";
 
 interface GroupForm {
@@ -21,29 +27,28 @@ interface Input {
 }
 
 export default function Groups() {
-  const [groups, setGroups] = useState<Group[]>([]);
+  // const [groups, setGroups] = useState<Group[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // New state for delete modal
   const [students, setStudents] = useState([]);
   const [groupIdToDelete, setGroupIdToDelete] = useState(""); // New state to track group ID to delete
+  const [groupId, setGroupId] = useState("");
+  const [groupName, setGroupName] = useState("");
 
-  const getgroupslist = async () => {
-    try {
-      let response = await axios.get(
-        "https://upskilling-egypt.com:3005/api/group",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      console.log(response.data);
-      setGroups(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleEdit = (id: string, name: string) => {
+    setShowEditModal(true);
+    setGroupId(id);
+
+    setGroupName(name);
   };
+
+  const handleDeleteClick = (id: string) => {
+    setShowDeleteModal(true);
+    setGroupIdToDelete(id);
+  };
+
+  const { data: groups } = useGetGroupsQuery();
 
   const getStudents = async () => {
     try {
@@ -65,59 +70,22 @@ export default function Groups() {
       console.log(error);
     }
   };
+  const [addGroup] = useAddGroupMutation();
 
   const onSubmit: SubmitHandler<Input> = async (data) => {
-    console.log(data);
-
-    try {
-      const response = await axios.post(
-        "https://upskilling-egypt.com:3005/api/group",
-        data,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      console.log(response);
-      setShowModal(false);
-      getgroupslist();
-    } catch (error) {
-      console.log(error);
-    }
+    const response = await addGroup(data);
+    setShowModal(false);
   };
-
+  const [updateGroup] = useUpdateGroupMutation();
   const onEditSubmit = async (data: GroupForm) => {
-    console.log(data);
-
-    try {
-      const response = await axios.put(
-        `https://upskilling-egypt.com:3005/api/group/${groupId}`,
-        data,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      console.log(response);
-      setShowEditModal(false);
-      getgroupslist();
-    } catch (error) {
-      console.log(error);
-    }
+    const response = await updateGroup({ data, groupId });
+    setShowEditModal(false);
   };
-
+  const [deleteGroup] = useDeleteGroupMutation();
   const handleDelete = async () => {
-    try {
-      const response = await axios.delete(
-        `https://upskilling-egypt.com:3005/api/group/${groupIdToDelete}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      console.log(response);
-      setShowDeleteModal(false);
-      getgroupslist();
-    } catch (error) {
-      console.log(error);
-    }
+    const response = await deleteGroup(groupIdToDelete);
+    setShowDeleteModal(false);
+    console.log(response);
   };
 
   const {
@@ -127,22 +95,7 @@ export default function Groups() {
     control,
   } = useForm<Input>();
 
-  const [groupId, setGroupId] = useState("");
-  const [groupName, setGroupName] = useState("");
-
-  const handleEdit = (id: string, name: string) => {
-    setShowEditModal(true);
-    setGroupId(id);
-    setGroupName(name);
-  };
-
-  const handleDeleteClick = (id: string) => {
-    setShowDeleteModal(true);
-    setGroupIdToDelete(id);
-  };
-
   useEffect(() => {
-    getgroupslist();
     getStudents();
   }, []);
 
@@ -163,7 +116,9 @@ export default function Groups() {
               <div className="relative w-auto my-6 mx-auto max-w-3xl">
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white ">
                   <div className="flex justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                    <h3 className="text-3xl font-semibold">Set up a new Group</h3>
+                    <h3 className="text-3xl font-semibold">
+                      Set up a new Group
+                    </h3>
                     <button
                       className="text-black text-3xl font-semibold"
                       onClick={() => setShowModal(false)}
@@ -204,7 +159,9 @@ export default function Groups() {
                               value={students.find(
                                 (student: any) => student._id === value
                               )}
-                              onChange={(val) => onChange(val.map((e: any) => e.value))}
+                              onChange={(val) =>
+                                onChange(val.map((e: any) => e.value))
+                              }
                             />
                           )}
                         />
@@ -266,8 +223,10 @@ export default function Groups() {
                     </button>
                   </div>
                   <div className="p-[50px]">
-                    <p>Are you sure you want to delete this group?</p>
-                    <div className="flex justify-end">
+                    <p className="font-semibold text-[20px]">
+                      Are you sure you want to delete this group?
+                    </p>
+                    <div className="flex justify-end my-5">
                       <button
                         className="px-2 py-1 text-black rounded-lg border text-[20px] mr-2"
                         onClick={() => setShowDeleteModal(false)}
@@ -292,7 +251,7 @@ export default function Groups() {
       <div className="w-full h-screen p-5 border-2 rounded-md font-nunito shadow-lg">
         <h1 className="text-2xl font-semibold">Groups list</h1>
         <div className="mt-5 flex flex-wrap gap-5">
-          {groups.map((group) => (
+          {groups?.map((group: Group) => (
             <div
               key={group._id}
               className="flex items-center justify-between p-5 border-2 rounded-md w-full md:w-[48%] mb-6 md:mb-0"
