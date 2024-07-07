@@ -54,8 +54,8 @@ export default function Navbar() {
             {/* Information */}
         <div className="flex flex-1 items-center justify-between px-10">
           <div>
-            <p>Lorem ipsum dolor</p>
-            <p>Lorem ipsum dolor</p>
+            <p>Kareem Tarek</p>
+            <p>kareemtarek3219521@gmail.com</p>
           </div>
           <div>
           <ChevronDown />

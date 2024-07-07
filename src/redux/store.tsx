@@ -6,11 +6,11 @@ import { studentSlice } from "./students/studentsSlice";
 export const store = configureStore({
   reducer: {
     [authSlice.reducerPath]: authSlice.reducer,
-        [groupSlice.reducerPath] : groupSlice.reducer,
+    [groupSlice.reducerPath]: groupSlice.reducer,
     [studentSlice.reducerPath]: studentSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat([[authSlice.middleware,groupSlice.middleware], studentSlice.middleware]),
+    }).concat(authSlice.middleware, groupSlice.middleware, studentSlice.middleware),
 });
