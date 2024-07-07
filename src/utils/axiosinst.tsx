@@ -1,22 +1,22 @@
 import axios from "axios";
+import Cookies from "universal-cookie";
 
-const baseURL='https://upskilling-egypt.com:3005/api'
-const staticURL='https://upskilling-egypt.com:3005'
+const baseURL = "https://upskilling-egypt.com:3005/api";
+const staticURL = "https://upskilling-egypt.com:3005";
 
 //Without Token mostly for Auth
-const apiPuplic=axios.create({
-    baseURL,
-})
+const apiPuplic = axios.create({
+  baseURL,
+});
 
 //With Token mostly for Lists 3lshan el m7taga token
-const apiToken=axios.create({
-    baseURL
-})
+const apiToken = axios.create({
+  baseURL,
+});
+const cookies = new Cookies();
+apiToken.interceptors.request.use((config) => {
+  config.headers.Authorization = cookies.get("accessToken");
+  return config;
+});
 
-apiToken.interceptors.request.use((config)=>{
-    const token = `Bearer ${localStorage.getItem('token')}`
-    config.headers.Authorization=token
-    return config
-})
-
-export{apiPuplic,apiToken,baseURL,staticURL}
+export { apiPuplic, apiToken, baseURL, staticURL };
