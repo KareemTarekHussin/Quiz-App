@@ -18,5 +18,16 @@ apiToken.interceptors.request.use((config) => {
   config.headers.Authorization = cookies.get("accessToken");
   return config;
 });
+//Questions Endpoints
+export const QUESTIONS_URLS = {
+  createQuestion: "/question",
+  questionOperations: (id: string) => `/question/${id}`,
+  examQuestions: (id: string) => `/quiz/without-answers/${id}`
+};
+//QuizzesEndpoints
+
+
+//Results Endpoints
+
 
 export { apiPuplic, apiToken, baseURL, staticURL };

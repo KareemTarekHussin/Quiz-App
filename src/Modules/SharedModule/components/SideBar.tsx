@@ -135,6 +135,15 @@ const logout= ()=>{
 
             <MenuItem 
             className=" border-2 border-t-0 border-l-0 border-r-0"
+              component={<Link to="questions" />} 
+              icon={<div className="bg-menuItem w-16 h-10 flex justify-center items-center rounded-md">
+                <BookOpenCheck className="w-10 h-9" />
+              </div>}
+            >
+         Questions
+            </MenuItem>
+            <MenuItem 
+            className=" border-2 border-t-0 border-l-0 border-r-0"
               component={<Link to="quizes" />} 
               icon={<div className="bg-menuItem w-16 h-10 flex justify-center items-center rounded-md">
                 <BookOpenCheck className="w-10 h-9" />
