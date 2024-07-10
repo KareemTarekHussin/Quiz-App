@@ -65,6 +65,7 @@ export const authSlice = createApi({
         message: string;
       }) => {
         cookies.set('accessToken', response.data.accessToken);
+        cookies.set('userInfo',JSON.stringify(response.data.profile));
         toast.success(response.message, { autoClose: 1500 });
         return response;
       },

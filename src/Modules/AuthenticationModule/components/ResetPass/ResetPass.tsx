@@ -26,7 +26,7 @@ export default function ResetPass() {
         if ('data' in response) {
           navigate('/login');
         }
-      } catch (error: any) {
+      } catch (error) {
         console.error(error);
       }
     },

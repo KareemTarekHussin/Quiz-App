@@ -2,7 +2,6 @@ import userImg from "../../../assets/images/user.png";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import {
   useGetStudentsQuery,
-  useStudentDetailsQuery,
 } from "../../../redux/students/studentsSlice";
 import { UserListProps } from "../../../interfaces/interfaces";
 import { useState } from "react";
@@ -10,7 +9,7 @@ import StudentDetails from "./StudentDetails";
 import Pagination from "../../SharedModule/components/UI/Pagination";
 import { AnimatePresence, motion } from 'framer-motion';
 export default function StudentsList() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [detailsId, setDetailsId] = useState("");
   const { isLoading, data: users } = useGetStudentsQuery(0);
   

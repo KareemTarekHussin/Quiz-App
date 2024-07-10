@@ -17,6 +17,15 @@ export const studentSlice = createApi({
         },
       }),
     }),
+    getAllStudentsWithoutGroup: builder.query({
+      query: () => ({
+        url: "/student/without-group",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${cookie.get("accessToken")}`,
+        },
+      }),
+    }),
     studentDetails: builder.query({
       query: (id: string) => ({
         url: `/student/${id}`,
@@ -28,4 +37,4 @@ export const studentSlice = createApi({
   }),
 });
 
-export const { useGetStudentsQuery, useStudentDetailsQuery } = studentSlice;
+export const { useGetStudentsQuery,useGetAllStudentsWithoutGroupQuery, useStudentDetailsQuery } = studentSlice;

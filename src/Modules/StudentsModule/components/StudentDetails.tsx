@@ -1,12 +1,11 @@
-import React from "react";
 import { useStudentDetailsQuery } from "../../../redux/students/studentsSlice";
 import { LineWave } from "react-loader-spinner";
 
-export default function StudentDetails({ detailsId }: { detailsId: string }) {
+export default function StudentDetails({ detailsId, setOpen }: { detailsId: string, setOpen: (arg: boolean)=> void }) {
   const { data: userDetail, isLoading: isLoadingDetails } =
     useStudentDetailsQuery(detailsId);
 
-  console.log(isLoadingDetails, "details");
+  console.log(userDetail, "details");
   return (
     <>
       {isLoadingDetails ? (
@@ -27,7 +26,11 @@ export default function StudentDetails({ detailsId }: { detailsId: string }) {
       ) : <>
       
       <p>{userDetail?.first_name}</p>
-      
+      <p>{userDetail?.last_name}</p>
+      <p>{userDetail?.group?.name}</p>
+      <p>{userDetail?.email}</p>
+      <p>{userDetail?.status}</p>
+      <button onClick={() => setOpen(false)}>Cancle</button>
       </>}
     </>
   );

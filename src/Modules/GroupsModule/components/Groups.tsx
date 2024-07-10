@@ -1,25 +1,15 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import Select from "react-select";
-import { Group } from "../../../interfaces/interfaces";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Group, StudentProps } from "../../../interfaces/interfaces";
 import {
   useAddGroupMutation,
   useDeleteGroupMutation,
   useGetGroupsQuery,
-  useUpdateGroupMutation,
 } from "../../../redux/Groups/groupSlice";
 import UpdateGroupForm from "./UpdateGroupForm";
-
-interface GroupForm {
-  name: string;
-  first_name: string;
-  last_name: string;
-  _id: string;
-  students: string[];
-}
+import { useGetAllStudentsWithoutGroupQuery } from "../../../redux/students/studentsSlice";
 
 interface Input {
   name: string;
@@ -29,18 +19,29 @@ interface Input {
 export default function Groups() {
   // const [groups, setGroups] = useState<Group[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // New state for delete modal
-  const [students, setStudents] = useState([]);
   const [groupIdToDelete, setGroupIdToDelete] = useState(""); // New state to track group ID to delete
-  const [groupId, setGroupId] = useState("");
-  const [groupName, setGroupName] = useState("");
+  const [groupEdit, setGroupEdit] = useState<{
+    _id: string;
+    name: string;
+    students: string[];
+  }>({ _id: "", name: "", students: [] });
 
-  const handleEdit = (id: string, name: string) => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<Input>();
+
+  const handleEdit = (group: {
+    _id: string;
+    name: string;
+    students: string[];
+  }) => {
     setShowEditModal(true);
-    setGroupId(id);
-
-    setGroupName(name);
+    setGroupEdit(group);
   };
 
   const handleDeleteClick = (id: string) => {
@@ -48,58 +49,26 @@ export default function Groups() {
     setGroupIdToDelete(id);
   };
 
-  const { data: groups } = useGetGroupsQuery();
+  const { data: groups } = useGetGroupsQuery(0);
+  const { data: studentsWithOutGroup } = useGetAllStudentsWithoutGroupQuery(0);
 
-  const getStudents = async () => {
-    console.log("asdasd");
-    try {
-      const response = await axios.get(
-        "https://upskilling-egypt.com:3005/api/student",
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      console.log("asdasd",response.data);
-      setStudents(
-        response.data.map((student: GroupForm) => {
-          return {
-            value: student._id,
-            label: student.first_name + " " + student.last_name,
-          };
-        })
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const [addGroup] = useAddGroupMutation();
+  console.log(studentsWithOutGroup, "gjh");
+
+  const [addGroup, { isLoading }] = useAddGroupMutation();
 
   const onSubmit: SubmitHandler<Input> = async (data) => {
-    const response = await addGroup(data);
+    await addGroup(data);
     setShowModal(false);
+    setValue("name", "");
+    setValue("students", []);
   };
-  const [updateGroup] = useUpdateGroupMutation();
-  const onEditSubmit = async (data: GroupForm) => {
-    const response = await updateGroup({ data, groupId });
-    setShowEditModal(false);
-  };
-  const [deleteGroup] = useDeleteGroupMutation();
+
+  const [deleteGroup, { isLoading: isLoadingDelete }] =
+    useDeleteGroupMutation();
   const handleDelete = async () => {
-    const response = await deleteGroup(groupIdToDelete);
+    await deleteGroup(groupIdToDelete);
     setShowDeleteModal(false);
-    console.log(response);
   };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    control,
-  } = useForm<Input>();
-
-  useEffect(() => {
-    getStudents();
-  }, []);
 
   return (
     <>
@@ -145,33 +114,37 @@ export default function Groups() {
                       {errors.name && (
                         <p className="text-[#ff0000]">{errors.name.message}</p>
                       )}
-                      <div className="my-7 flex border-2 rounded-lg">
-                        <h1 className="bg-[#FFEDDF] inline-flex justify-center items-center rounded-lg py-1 w-44">
+                      <div className="my-7 flex border-2 rounded-lg flex-col">
+                        <h1 className="bg-[#FFEDDF] inline-flex justify-center items-center rounded-lg py-2 w-44">
                           List Students
                         </h1>
 
-                        <Controller
-                          control={control}
-                          name={"students"}
-                          render={({ field: { onChange, value } }) => (
-                            <Select
-                              isMulti
-                              className="w-full text-black"
-                              options={students}
-                              value={students.find(
-                                (student: any) => student._id === value
-                              )}
-                              onChange={(val) =>
-                                onChange(val.map((e: any) => e.value))
-                              }
-                            />
+                        <select
+                          className="outline-none"
+                          {...register("students", {
+                            required: "students is required",
+                          })}
+                          multiple
+                        >
+                          {studentsWithOutGroup?.map(
+                            (student: StudentProps) => (
+                              <option value={student._id}>
+                                {student.first_name} {student.last_name}
+                              </option>
+                            )
                           )}
-                        />
+                        </select>
                       </div>
+                      {errors.students && (
+                        <p className="text-[#ff0000]">
+                          {errors.students.message}
+                        </p>
+                      )}
 
                       <button
                         className="px-2 py-1 text-black rounded-lg border text-[20px]"
                         type="submit"
+                        disabled={isLoading}
                       >
                         Save
                       </button>
@@ -199,9 +172,8 @@ export default function Groups() {
                   </div>
                   <div className="p-[50px]">
                     <UpdateGroupForm
-                      groupName={groupName}
-                      students={students}
-                      onEditSubmit={onEditSubmit}
+                      groupEdit={groupEdit}
+                      setShowEditModal={setShowEditModal}
                     />
                   </div>
                 </div>
@@ -215,7 +187,6 @@ export default function Groups() {
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
               <div className="relative w-auto my-6 mx-auto max-w-3xl">
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white">
-               
                   <div className="flex justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
                     <h3 className="text-3xl font-semibold">Delete Group</h3>
                     <button
@@ -226,31 +197,41 @@ export default function Groups() {
                     </button>
                   </div>
                   <div className="p-[50px]">
-                  <div className="text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-14 fill-red-500 inline" viewBox="0 0 24 24">
+                    <div className="text-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-14 fill-red-500 inline"
+                        viewBox="0 0 24 24"
+                      >
                         <path
-                            d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
-                            data-original="#000000" />
-                        <path d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
-                            data-original="#000000" />
-                    </svg>
+                          d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
+                          data-original="#000000"
+                        />
+                        <path
+                          d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
+                          data-original="#000000"
+                        />
+                      </svg>
                     </div>
                     <p className="font-semibold text-[20px]">
                       Are you sure you want to delete this group?
                     </p>
-                    
+
                     <div className="flex justify-end my-5">
                       <button
-                        className="px-2 py-1 text-black rounded-lg border text-[20px] mr-2"
+                        className={`px-2 py-1 text-black rounded-lg border text-[20px] mr-2`}
                         onClick={() => setShowDeleteModal(false)}
                       >
                         Cancel
                       </button>
                       <button
-                        className="px-2 py-1 text-white bg-red-600 rounded-lg text-[20px]"
+                        disabled={isLoadingDelete}
+                        className={`px-2 py-1 text-white ${
+                          isLoadingDelete ? "bg-red-900" : "bg-red-600"
+                        }   rounded-lg text-[20px]`}
                         onClick={handleDelete}
                       >
-                        Delete
+                        {isLoadingDelete ? "Deleting..." : "Delete"}
                       </button>
                     </div>
                   </div>
@@ -276,7 +257,7 @@ export default function Groups() {
               <div className="flex space-x-3">
                 <button className="mr-4" title="Edit">
                   <EditIcon
-                    onClick={() => handleEdit(group._id, group.name)}
+                    onClick={() => handleEdit(group)}
                     className="text-yellow-400 fill-yellow-500 hover:fill-yellow-700"
                   />
                 </button>
