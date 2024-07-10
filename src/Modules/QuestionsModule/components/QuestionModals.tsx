@@ -9,6 +9,22 @@ import { useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
+interface IEditQuestion {
+  answer: typeof RightAnswers;
+}
+interface ICreateQuestions {
+  title: string;
+  description: string;
+  options: {
+    A: string;
+    B: string;
+    C: string;
+    D: string;
+  };
+  answer: typeof RightAnswers;
+  difficulty: string;
+  type: string;
+}
 const validationSchema = Yup.object().shape({
   title: Yup.string().required('This Field is required'),
   description: Yup.string().required('This Field is required'),

@@ -7,19 +7,27 @@ import {
 import { UserListProps } from "../../../interfaces/interfaces";
 import { useState } from "react";
 import StudentDetails from "./StudentDetails";
-
+import Pagination from "../../SharedModule/components/UI/Pagination";
+import { AnimatePresence, motion } from 'framer-motion';
 export default function StudentsList() {
   const [open, setOpen] = useState(false);
   const [detailsId, setDetailsId] = useState("");
   const { isLoading, data: users } = useGetStudentsQuery(0);
-
-
-
+  
   const handleOpenModal = (id: string) => {
     setOpen(true);
     setDetailsId(id);
   };
 
+  const [currentPage, setCurrentPage] = useState(0);
+  const studentsPerPage = 10;
+  const startIndex = currentPage * studentsPerPage;
+  const endIndex = startIndex + studentsPerPage;
+  const currentStudents = users?.slice(startIndex, endIndex);
+
+  const handlePageChange = (selectedPage: number) => {
+    setCurrentPage(selectedPage);
+  };
 
   return (
     <>
@@ -40,10 +48,11 @@ export default function StudentsList() {
               </div>
             ))
           ) : (
-            <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {users?.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {currentStudents?.length > 0 ? (
                 <>
-                  {users.map((user: UserListProps) => (
+                <AnimatePresence initial={false} >
+                  {currentStudents.map((user: UserListProps) => (
                     <div key={user._id} className="border flex">
                       <img src={userImg} alt="" />
                       <div className="flex items-center justify-between w-full">
@@ -55,9 +64,13 @@ export default function StudentsList() {
                           onClick={() => handleOpenModal(user._id)}
                         />
                       </div>
+                      
                     </div>
+                    
                   ))}
+                      </AnimatePresence>
                 </>
+                
               ) : (
                 <p>No Data</p>
               )}
@@ -65,7 +78,7 @@ export default function StudentsList() {
           )}
         </div>
       </div>
-      {open ? (
+      {open && (
         <div
           className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center z-50"
           style={{ backgroundColor: "rgba(0,0,0,.25)" }}
@@ -73,10 +86,20 @@ export default function StudentsList() {
         >
           <div className="w-[50%] h-[30%] bg-white rounded shadow-xl p-3">
             <p className="font-semibold text-xl">Student Details</p>
-            <StudentDetails detailsId={detailsId}/>
+            <StudentDetails detailsId={detailsId} />
           </div>
+          
         </div>
-      ) : null}
+        
+      )}
+      {!isLoading && users && (
+        <Pagination
+          members={users}
+          count={studentsPerPage}
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+        />
+      )}
     </>
   );
 }

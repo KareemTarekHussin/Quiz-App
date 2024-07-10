@@ -7,6 +7,7 @@ import { useCallback, useState } from 'react';
 import { CreateQuestionModal, DeleteQuestionModal, DetailsQuestionModal, EditQuestionModal } from './QuestionModals';
 import { RightAnswers } from '../../../Types/types';
 import { AnimatePresence, motion } from 'framer-motion';
+import Pagination from '../../SharedModule/components/UI/Pagination';
 
 interface IQuestions {
   title: string;
@@ -26,9 +27,10 @@ interface IQuestions {
 
 const Questions = () => {
 
-  //? ***************Get Questions ***************
+  //? Get Questions 
   const { data: allQuestions, isLoading } = useAllQuestionsQuery(0)
-
+  
+ {/* Pagination */}
   const [currentPage, setCurrentPage] = useState(0)
 
   const handlePageChange = (selectedPage: number) => {
@@ -38,13 +40,14 @@ const Questions = () => {
   const startIndex = currentPage * questionsPerPage;
   const endIndex = startIndex + questionsPerPage;
   const currentQuestions = allQuestions?.slice(startIndex, endIndex);
+ {/* Pagination */}
 
-  //* ***************Create New Question ***************
+  // Create New Question 
   const [isOpen, setIsOpen] = useState(false)
   const openModal = useCallback(() => setIsOpen(true), [])
   const closeModal = useCallback(() => setIsOpen(false), [])
 
-  //! *************** Delete Question ***************
+  //  Delete Question 
   const [deleteItemId, setDeleteItem] = useState("")
   const [isOpenDeleteModel, setIsOpenDeleteModel] = useState(false)
   const openModalDelete = useCallback((_id: string) => {
@@ -56,7 +59,7 @@ const Questions = () => {
     setDeleteItem("")
   }, [])
 
-  //TODO *************** Edit Question ***************
+  // Edit Question 
   const [editItemId, setEditItem] = useState("")
   const [rightAnswer, setRightAnswer] = useState<typeof RightAnswers>("A")
   const [isOpenEditModel, setIsOpenEditModel] = useState(false)
@@ -152,6 +155,8 @@ const Questions = () => {
             </AnimatePresence>
           </tbody>
         </table>
+        {/* Pagination */}
+        {!isLoading && <Pagination members={allQuestions} count={questionsPerPage}  {...{ currentPage, handlePageChange }} />}
       </div>
     </AnimationContainer>
 
