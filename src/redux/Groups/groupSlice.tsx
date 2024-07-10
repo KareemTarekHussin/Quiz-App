@@ -5,16 +5,20 @@ import { toast } from "react-toastify";
 
 const cookies = new Cookies();
 const requestHeader = { Authorization: `Bearer ${cookies.get("accessToken")}` };
+
 export const groupSlice = createApi({
   reducerPath: "group",
   baseQuery: fetchBaseQuery({
     baseUrl: baseURL,
-    headers: requestHeader,
   }),
   tagTypes: ["Groups"],
   endpoints: (builder) => ({
     getGroups: builder.query({
-      query: () => "group",
+      query: () => ({
+        url: "group",
+        headers: requestHeader,
+      }),
+
       providesTags: ["Groups"],
     }),
 
@@ -23,6 +27,7 @@ export const groupSlice = createApi({
         url: "group",
         method: "POST",
         body: data,
+        headers: requestHeader,
       }),
 
       transformResponse: (response: { message: string }) => {
@@ -47,16 +52,17 @@ export const groupSlice = createApi({
     }),
     updateGroup: builder.mutation({
       query: (newData) => {
-       const {groupId,data} = newData
-        
-        return { url: `group/${groupId}`, method: "PUT", body: data };
+        const { groupId, data } = newData;
+
+        return { url: `group/${groupId}`, method: "PUT", body: data,headers: requestHeader };
       },
-      transformResponse:(response: { message: string }) => {
+      transformResponse: (response: { message: string }) => {
         toast.success(response.message, {
           autoClose: 1500,
         });
         return response;
-      },transformErrorResponse:(error: {
+      },
+      transformErrorResponse: (error: {
         data: {
           message: string;
           timestamp: string;
@@ -68,19 +74,19 @@ export const groupSlice = createApi({
         });
         return error;
       },
-      invalidatesTags:["Groups"]
+      invalidatesTags: ["Groups"],
     }),
     deleteGroup: builder.mutation({
       query: (groupIdToDelete) => {
-        
-        return { url: `group/${groupIdToDelete}`, method: "Delete",};
+        return { url: `group/${groupIdToDelete}`, method: "Delete",headers: requestHeader };
       },
-      transformResponse:(response: { message: string }) => {
+      transformResponse: (response: { message: string }) => {
         toast.success(response.message, {
           autoClose: 1500,
         });
         return response;
-      },transformErrorResponse:(error: {
+      },
+      transformErrorResponse: (error: {
         data: {
           message: string;
           timestamp: string;
@@ -92,10 +98,8 @@ export const groupSlice = createApi({
         });
         return error;
       },
-      invalidatesTags:["Groups"]
+      invalidatesTags: ["Groups"],
     }),
-
-   
   }),
 });
 
@@ -103,5 +107,5 @@ export const {
   useGetGroupsQuery,
   useAddGroupMutation,
   useUpdateGroupMutation,
-  useDeleteGroupMutation
+  useDeleteGroupMutation,
 } = groupSlice;

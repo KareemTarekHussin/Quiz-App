@@ -16,13 +16,15 @@ type AuthInputs = {
   email: string;
   password: string;
 };
+
+
 export default function Login() {
   const [login, { isLoading }] = useLoginMutation();
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
   const onSubmit = async (user: AuthInputs) => {
     const response = await login(user);
-    console.log(response);
+
     if (response.data?.message === "Login Success") {
       navigate("/DashBoard");
     }
@@ -37,6 +39,7 @@ export default function Login() {
       onSubmit(values);
     },
   });
+
   return (
     <>
       <AuthContainer header="Continue your learning journey with QuizWiz!">

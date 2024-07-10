@@ -1,74 +1,39 @@
-import { Bell, ChevronDown, Mail,AlarmClockPlus } from "lucide-react";
+import { Bell, Mail, AlarmClock } from "lucide-react";
+import Cookies from "universal-cookie";
 
 export default function Navbar() {
+  const cookie = new Cookies();
+  const userInfo = cookie.get("userInfo");
+
   return (
-    <nav className="w-full bg-yellow-30 h-20 border-2 border-l-0
-     flex items-center" >
+    <nav className="border-b-2 border-x-gray-300 w-full">
+      <div className=" flex items-center h-[78px] px-2">
+        <p className="text-xl font-semibold">Dashboard</p>
 
-      <div className="bg-green-40 h-20 flex flex-1">
+        <div className="flex items-center h-full ml-auto">
+          <div className="border-r-2 h-full flex items-center pr-3 pl-3">
+            <button className=" flex items-center border p-2 rounded-3xl">
+              <AlarmClock />
+              <p className="px-2 text-xs md:text-base">New quiz</p>
+            </button>
+          </div>
 
-        <div className="flex bg-red-10 justify-between items-center flex-1 border-r-2 px-2 gap-4">
-          <h1 className="font-semibold" >Groups</h1>
-
-          <button 
-  className="
-    flex 
-    items-center 
-    rounded-full 
-    bg-transparent 
-    font-semibold 
-    py-2 
-    px-4 
-    border 
-    border-black
-  "
->
-  <AlarmClockPlus className="mr-2" />
-  New Quiz
-</button>
-          
-        </div>
-
-        {/* Messages */}
-        
-        <div className="flex flex- px-10 gap-4 bg-red-5 justify-center border-r-2">
-
-          <div className="flex justify-center items-center bg-yellow-40 p-" >
+          <div className="pl-4 border-r-2 border-slate-200 pr-4 h-full md:flex hidden items-center">
             <Mail />
           </div>
-
-          {/* <div className="flex justify-center items-center bg-yellow-40 p-" >l
-            <Bell />
-          </div> */}
-
-        </div>
-
-          {/* Notifications */}
-        <div className="flex flex- px-10 gap-4 bg-red-5 justify-center border-r-2">
-
-          <div className="flex justify-center items-center bg-yellow-40 p-" >
+          <div className="px-4 border-r-2 border-slate-200 pr-4 h-full md:flex hidden items-center">
             <Bell />
           </div>
-        </div>
+          <div className="px-4">
+            <div className="flex items-center gap-3">
+              <p className="text-sm md:text-base">{userInfo.first_name}</p>
+              <p className="text-sm md:text-base">{userInfo.role}</p>
+            </div>
 
-            {/* Information */}
-        <div className="flex flex-1 items-center justify-between px-10">
-          <div>
-            <p>Kareem Tarek</p>
-            <p>kareemtarek3219521@gmail.com</p>
+            <p className="text-sm md:text-base">{userInfo.email}</p>
           </div>
-          <div>
-          <ChevronDown />
-          </div>
-
         </div>
-
-
-
       </div>
-
-    
-
-  </nav>
-  )
+    </nav>
+  );
 }
