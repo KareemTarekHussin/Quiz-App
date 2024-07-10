@@ -2,14 +2,13 @@ import userImg from "../../../assets/images/user.png";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import {
   useGetStudentsQuery,
-  useStudentDetailsQuery,
 } from "../../../redux/students/studentsSlice";
 import { UserListProps } from "../../../interfaces/interfaces";
 import { useState } from "react";
 import StudentDetails from "./StudentDetails";
 
 export default function StudentsList() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [detailsId, setDetailsId] = useState("");
   const { isLoading, data: users } = useGetStudentsQuery(0);
 
@@ -73,7 +72,7 @@ export default function StudentsList() {
         >
           <div className="w-[50%] h-[30%] bg-white rounded shadow-xl p-3">
             <p className="font-semibold text-xl">Student Details</p>
-            <StudentDetails detailsId={detailsId}/>
+            <StudentDetails detailsId={detailsId} setOpen={setOpen}/>
           </div>
         </div>
       ) : null}
