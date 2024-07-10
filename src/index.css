@@ -15,7 +15,7 @@
   
   .sidebar-container .ps-sidebar-container{
     background-color: #FFF;
-    border: 2px solid #E5E7Eb;
+    border: 0px solid #E5E7Eb;
     border-left: 0;
     border-top: 0;
     height: 100vh;
@@ -49,6 +49,18 @@
     }
     .sidebar-container .css-1wvake5 {
         border: 0;
+    }
+
+    .sidebar-container {
+      transition: transform 0.3s ease;
+    }
+    
+    .sidebar-container.hide {
+      transform: translateX(-100%);
+    }
+    
+    .sidebar-container.show {
+      transform: translateX(0);
     }
 
 
