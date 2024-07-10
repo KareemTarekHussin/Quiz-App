@@ -29,14 +29,14 @@ const Questions = () => {
 
   //? Get Questions 
   const { data: allQuestions, isLoading } = useAllQuestionsQuery(0)
-  
+
  {/* Pagination */}
   const [currentPage, setCurrentPage] = useState(0)
 
   const handlePageChange = (selectedPage: number) => {
     setCurrentPage(selectedPage);
   }
-  const questionsPerPage = 5;
+  const questionsPerPage = 10;
   const startIndex = currentPage * questionsPerPage;
   const endIndex = startIndex + questionsPerPage;
   const currentQuestions = allQuestions?.slice(startIndex, endIndex);

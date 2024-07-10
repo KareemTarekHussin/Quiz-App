@@ -149,7 +149,7 @@ export const DeleteQuestionModal = ({ isOpenDeleteModel, closeModalDelete, delet
     <DeleteModel {...{ isOpenDeleteModel, closeModalDelete }}>
       <form onSubmit={handleDeleteQuiz}>
         <span className='text-xl font-extrabold'>Confirm Delete</span>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-600">
           Are you sure you want to delete this Question ?
         </p>
         <div className='flex justify-between mt-4'>
