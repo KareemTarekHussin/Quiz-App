@@ -1,9 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { baseURL } from '../../utils/axiosinst';
 import { toast } from 'react-toastify';
-import Cookies from 'universal-cookie';
+import CookieServices from '../../utils/Cookies';
 
-const cookies = new Cookies();
 
 export const authSlice = createApi({
   reducerPath: 'auth',
@@ -64,8 +63,8 @@ export const authSlice = createApi({
         };
         message: string;
       }) => {
-        cookies.set('accessToken', response.data.accessToken);
-        cookies.set('userInfo',JSON.stringify(response.data.profile));
+        CookieServices.set('accessToken', response.data.accessToken);
+        CookieServices.set('userInfo',JSON.stringify(response.data.profile));
         toast.success(response.message, { autoClose: 1500 });
         return response;
       },

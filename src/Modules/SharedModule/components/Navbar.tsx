@@ -1,9 +1,8 @@
 import { Bell, Mail, AlarmClock } from "lucide-react";
-import Cookies from "universal-cookie";
+import CookieServices from "../../../utils/Cookies";
 
 export default function Navbar() {
-  const cookie = new Cookies();
-  const userInfo = cookie.get("userInfo");
+  const userInfo = CookieServices.get("userInfo");
 
   return (
     <nav className="border-b-2 border-x-gray-300 w-full">

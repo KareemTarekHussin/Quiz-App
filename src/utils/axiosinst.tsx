@@ -1,5 +1,5 @@
 import axios from "axios";
-import Cookies from "universal-cookie";
+import CookieServices from "./Cookies";
 
 const baseURL = "https://upskilling-egypt.com:3005/api";
 const staticURL = "https://upskilling-egypt.com:3005";
@@ -13,9 +13,8 @@ const apiPuplic = axios.create({
 const apiToken = axios.create({
   baseURL,
 });
-const cookies = new Cookies();
 apiToken.interceptors.request.use((config) => {
-  config.headers.Authorization = cookies.get("accessToken");
+  config.headers.Authorization = CookieServices.get("accessToken");
   return config;
 });
 //Questions Endpoints

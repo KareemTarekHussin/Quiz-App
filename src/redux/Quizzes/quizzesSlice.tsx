@@ -1,8 +1,7 @@
-import Cookies from "universal-cookie";
+import CookieServices from "../../utils/Cookies";
 import { baseURL, QUIZZES_URLS } from "../../utils/axiosinst";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { toast } from "react-toastify";
-const cookie = new Cookies();
 interface ISubmitQuizResponse {
     data: {
       finished_at: string
@@ -72,7 +71,7 @@ export const QuizzesApiSlice = createApi({
         method: "POST",
         body: data,
         headers: {
-          Authorization: `Bearer ${cookie.get("accessToken")}`
+          Authorization: `Bearer ${CookieServices.get("accessToken")}`
         }
       }),
       invalidatesTags: ["Quizzes"],
@@ -93,7 +92,7 @@ export const QuizzesApiSlice = createApi({
           method: "PUT",
           body: bodyData,
           headers: {
-            Authorization: `Bearer ${cookie.get("accessToken")}`
+            Authorization: `Bearer ${CookieServices.get("accessToken")}`
           }
         };
       },
@@ -112,7 +111,7 @@ export const QuizzesApiSlice = createApi({
         url: QUIZZES_URLS.quizzesOperations(deleteItemId),
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${cookie.get("accessToken")}`
+          Authorization: `Bearer ${CookieServices.get("accessToken")}`
         }
       }),
       invalidatesTags: ["Quizzes"],
@@ -131,7 +130,7 @@ export const QuizzesApiSlice = createApi({
         method: "POST",
         body: data,
         headers: {
-          Authorization: `Bearer ${cookie.get("accessToken")}`
+          Authorization: `Bearer ${CookieServices.get("accessToken")}`
         }
       }),
       invalidatesTags: ["Quizzes"],
@@ -152,7 +151,7 @@ export const QuizzesApiSlice = createApi({
           method: "POST",
           body: bodyData,
           headers: {
-            Authorization: `Bearer ${cookie.get("accessToken")}`
+            Authorization: `Bearer ${CookieServices.get("accessToken")}`
           }
         };
       },
@@ -170,7 +169,7 @@ export const QuizzesApiSlice = createApi({
       query: () => ({
         url: QUIZZES_URLS.upcomingQuizzes,
         headers: {
-          Authorization: `Bearer ${cookie.get("accessToken")}`
+          Authorization: `Bearer ${CookieServices.get("accessToken")}`
         }
       }),
       providesTags: (result) => ['Quizzes', ...result?.map(({ _id }: any) => ({ type: 'Quizzes', _id }))]
@@ -179,7 +178,7 @@ export const QuizzesApiSlice = createApi({
       query: () => ({
         url: QUIZZES_URLS.completedQuizzes,
         headers: {
-          Authorization: `Bearer ${cookie.get("accessToken")}`
+          Authorization: `Bearer ${CookieServices.get("accessToken")}`
         }
       })
     }),
@@ -187,7 +186,7 @@ export const QuizzesApiSlice = createApi({
       query: (_id) => ({
         url: QUIZZES_URLS.quizzesOperations(_id),
         headers: {
-          Authorization: `Bearer ${cookie.get("accessToken")}`
+          Authorization: `Bearer ${CookieServices.get("accessToken")}`
         }
       })
     })

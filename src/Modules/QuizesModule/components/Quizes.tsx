@@ -1,23 +1,23 @@
 import  quizImg  from '../../../assets/images/img.png';
-import { AnimationContainer, QuizzesCardSkeleton } from '@/Components';
+import  AnimationContainer from '../../SharedModule/components/UI/AnimationContainer';
+import  QuizzesCardSkeleton  from './SkeletonCards';
 import { useCompletedQuizzesQuery, useGetFirstUpcomingQuizzesQuery } from '../../../redux/Quizzes/quizzesSlice';
-import CookieServices from '@/Services/CookieServices/CookieServices';
+import CookieServices from '../../../utils/Cookies';
 import { List } from '../../../utils/VariablesQS';
 import { ArrowRight } from 'lucide-react';
 import moment from 'moment';
 import { useLayoutEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Quizzes.module.scss';
-import { CreateQuizModal, InfoQuizModal } from './QuizzesModels';
-import StudentQuizzesPage from './StudentQuizzesPage';
-export interface IUpcomingQuizzes {
+import { CreateQuizModal, InfoQuizModal } from './QuizesModals';
+import StudentQuizzesPage from './QuizesStudent';
+ interface IUpcomingQuizzes {
   _id: string
   title: string,
   createdAt: string,
-  schadule: string
+  schedule: string
 }
 
-export interface ICompletedQuizzes {
+ interface ICompletedQuizzes {
   closed_at: string
   code: string
   createdAt: string
@@ -29,7 +29,7 @@ export interface ICompletedQuizzes {
   participants: number
   questions: []
   questions_number: number
-  schadule: string
+  schedule: string
   score_per_question: number
   status: string
   title: string
@@ -66,14 +66,14 @@ const Quizzes = () => {
   }, [upcomingQuizzesLoading, completedQuizzesLoading]);
 
   return <>
-    {CookieServices.get("role").role === "Instructor" ? <>
+     <>
       <CreateQuizModal {...{ isOpen, closeModal, openInfoModel }} />
       <InfoQuizModal {...{ isOpenInfoModel, closeInfoModel, quizCode }} />
-    </> : null}
+    </> 
 
     <AnimationContainer>
       <div className='flex w-full gap-3 '>
-        {CookieServices.get("role").role === "Instructor" ? <>
+        <>
 
           <div className='flex flex-col space-y-2 '>
             {!allDataLoaded && Array.from({ length: 3 }, (_, idx) => <div key={idx} className=" hidden sm:block  sm:w-[130px]  md:w-[200px] h-[190px] animate-pulse bg-gray-500  quizBox border-2 border-gray-200  rounded-md ">
@@ -93,7 +93,7 @@ const Quizzes = () => {
           <div className='flex flex-col flex-1 '>
 
             <div className="p-3 border-2 rounded-md" >
-              {!allDataLoaded ? <h6 className="h-[14px] w-[90px] animate-pulse bg-gray-500 rounded-md">{""}</h6> : <h2 className='font-semibold '>{t("UpcomingQuizzes")}</h2>}
+              {!allDataLoaded ? <h6 className="h-[14px] w-[90px] animate-pulse bg-gray-500 rounded-md">{""}</h6> : <h2 className='font-semibold '>{"UpcomingQuizzes"}</h2>}
               {!allDataLoaded && Array.from({ length: 1 }, (_, idx) => <QuizzesCardSkeleton key={idx} />)}
               {allDataLoaded && UpcomingQuizzes?.map(({ title, createdAt, schedule, _id }: IUpcomingQuizzes) => <div key={_id} className='flex items-center mt-4 border-2 rounded-lg '>
 
@@ -162,9 +162,9 @@ const Quizzes = () => {
             </div>
           </div>
         </>
-          :
-          <StudentQuizzesPage {...{ CompletedQuizzes, UpcomingQuizzes, allDataLoaded }} />
-        }
+          {/* :if condition law instructor aw law student
+          <StudentQuizzesPage {...{ CompletedQuizzes, UpcomingQuizzes, allDataLoaded }} /> */}
+        
 
       </div>
     </AnimationContainer>

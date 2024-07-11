@@ -1,16 +1,29 @@
 import  Button  from "../../SharedModule/components/UI/Buttons"
 import { DateInput, Input, SelectInput, Textarea } from "../../SharedModule/components/UI/Inputs"
-import { AddModel, InfoModel, JoinModel } from "../../SharedModule/components/Modals"
-import { ICreateQuiz, IJoinQuiz } from "@/InterFaces/QuizzesInterFaces"
+import { AddModel, InfoModel, JoinTaskModel } from "../../SharedModule/components/Modals"
 import { useGetGroupsQuery } from "../../../redux/Groups/groupSlice"
-import { useCreateQuizMutation, useJoinQuizMutation } from "@/Redux/Services/Quizzes/QuizzesSlice"
+import { useCreateQuizMutation, useJoinQuizMutation } from "../../../redux/Quizzes/quizzesSlice"
 import { difficulty, duration, questions_number, type } from "../../../utils/VariablesQS"
 import { Loader, SaveAll } from "lucide-react"
 import { useRef } from "react"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
+interface ICreateQuiz {
+  title: string,
+  description: string,
+  group: string,
+  questions_number: 1,
+  difficulty: string,
+  type: string,
+  schadule: Date,
+  duration: number,
+  score_per_question: number
+}
 
+export interface IJoinQuiz {
+  code: string
+}
 interface IAddQuizzesProps {
   isOpen: boolean
   openInfoModel: (code: string) => void

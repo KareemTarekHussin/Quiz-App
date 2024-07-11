@@ -1,10 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { baseURL } from "../../utils/axiosinst";
-import Cookies from "universal-cookie";
+import CookieServices from "../../utils/Cookies";
 import { toast } from "react-toastify";
 
-const cookies = new Cookies();
-const requestHeader = { Authorization: `Bearer ${cookies.get("accessToken")}` };
+const requestHeader = { Authorization: `Bearer ${CookieServices.get("accessToken")}` };
 
 export const groupSlice = createApi({
   reducerPath: "group",

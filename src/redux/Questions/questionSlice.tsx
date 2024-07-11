@@ -1,9 +1,8 @@
-import Cookies from "universal-cookie";
+import CookieServices from "../../utils/Cookies";
 import { baseURL, QUESTIONS_URLS } from "../../utils/axiosinst";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { toast } from "react-toastify";
 import { RightAnswers } from "../../Types/types";
-const cookie = new Cookies();
 
 export interface IFormError {
   data: {
@@ -82,7 +81,7 @@ export const QuestionsApiSlice = createApi({
       query: () => ({
         url: QUESTIONS_URLS.createQuestion,
         headers: {
-          Authorization: `Bearer ${cookie.get("accessToken")}`,
+          Authorization: `Bearer ${CookieServices.get("accessToken")}`,
         },
       }),
       providesTags: (result) =>
@@ -98,7 +97,7 @@ export const QuestionsApiSlice = createApi({
           method: "POST",
           body: data,
           headers: {
-            Authorization: `Bearer ${cookie.get("accessToken")}`,
+            Authorization: `Bearer ${CookieServices.get("accessToken")}`,
           },
         };
       },
@@ -118,7 +117,7 @@ export const QuestionsApiSlice = createApi({
           url: QUESTIONS_URLS.questionOperations(id),
           method: "DELETE",
           headers: {
-            Authorization: `Bearer ${cookie.get("accessToken")}`,
+            Authorization: `Bearer ${CookieServices.get("accessToken")}`,
           },
         };
       },
@@ -140,7 +139,7 @@ export const QuestionsApiSlice = createApi({
           method: "PUT",
           body: bodyData,
           headers: {
-            Authorization: `Bearer ${cookie.get("accessToken")}`,
+            Authorization: `Bearer ${CookieServices.get("accessToken")}`,
           },
         };
       },
@@ -158,7 +157,7 @@ export const QuestionsApiSlice = createApi({
       query: (id) => ({
         url: QUESTIONS_URLS.questionOperations(id),
         headers: {
-          Authorization: `Bearer ${cookie.get("accessToken")}`,
+          Authorization: `Bearer ${CookieServices.get("accessToken")}`,
         },
       }),
     }),
@@ -166,7 +165,7 @@ export const QuestionsApiSlice = createApi({
       query: (id) => ({
         url: QUESTIONS_URLS.examQuestions(id),
         headers: {
-          Authorization: `Bearer ${cookie.get("accessToken")}`,
+          Authorization: `Bearer ${CookieServices.get("accessToken")}`,
         },
       }),
     }),

@@ -1,9 +1,8 @@
 import { Navigate } from "react-router-dom";
-import Cookies from "universal-cookie";
+import CookieServices from "../../../utils/Cookies";
 
 export default function ProtectedRoute({ children }: React.PropsWithChildren) {
-  const cookies = new Cookies();
-  if (!cookies.get("accessToken")) {
+  if (!CookieServices.get("accessToken")) {
     return <Navigate to="/login" />;
   } else {
     return children;
