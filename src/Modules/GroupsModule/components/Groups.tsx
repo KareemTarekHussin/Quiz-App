@@ -27,7 +27,7 @@ interface Input {
 }
 
 export default function Groups() {
-  // const [groups, setGroups] = useState<Group[]>([]);
+  
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false); // New state for delete modal
