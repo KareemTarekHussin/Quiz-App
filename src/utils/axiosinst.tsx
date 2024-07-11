@@ -19,15 +19,29 @@ apiToken.interceptors.request.use((config) => {
   return config;
 });
 //Questions Endpoints
-export const QUESTIONS_URLS = {
+ const QUESTIONS_URLS = {
   createQuestion: "/question",
   questionOperations: (id: string) => `/question/${id}`,
   examQuestions: (id: string) => `/quiz/without-answers/${id}`
 };
 //QuizzesEndpoints
-
+ const QUIZZES_URLS = {
+  upcomingQuizzes: "/quiz/incomming",
+  completedQuizzes: "/quiz/completed",
+  createQuiz: "/quiz",
+  quizzesOperations: (id: string) => `/quiz/${id}`,
+  joinQuiz: "/quiz/join",
+  finishQuiz: (id: string) => `/quiz/submit/${id}`,
+}
 
 //Results Endpoints
 
 
-export { apiPuplic, apiToken, baseURL, staticURL };
+export {
+  apiPuplic,
+  apiToken,
+  baseURL,
+  staticURL,
+  QUIZZES_URLS,
+  QUESTIONS_URLS,
+};
