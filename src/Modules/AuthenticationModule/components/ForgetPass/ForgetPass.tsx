@@ -1,10 +1,8 @@
-import { useFormik } from "formik";
-import logo from "../../../../assets/images/logo.png";
-import image from "../../../../assets/images/Image.png";
-// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-// import EmailIcon from '@mui/icons-material/Email';
-import { Link, useNavigate } from "react-router-dom";
-import { apiPuplic } from "../../../../utils/axiosinst";
+import { useFormik } from 'formik';
+import logo from '../../../../assets/images/logo.png';
+import image from '../../../../assets/images/Image.png';
+import { Link, useNavigate } from 'react-router-dom';
+import { useForgotPasswordMutation } from '../../../../redux/auth/authSlice';
 
 interface FormValues {
   email: string;
@@ -12,24 +10,22 @@ interface FormValues {
 
 export default function ForgetPass() {
   const navigate = useNavigate();
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
 
   const formik = useFormik<FormValues>({
     initialValues: {
-      email: ""
+      email: '',
     },
     onSubmit: async (values) => {
       try {
-        const response = await 
-        apiPuplic.post("auth/forgot-password", 
-          {
-          email: values.email
-        });
-        console.log(response.data);
-        navigate('/resetpass'); 
+        const response = await forgotPassword({ email: values.email });
+        if ('data' in response) {
+          navigate('/resetpass');
+        }
       } catch (error) {
-        console.error(error);     
+        console.error(error);
       }
-    }
+    },
   });
  
   return (
@@ -39,15 +35,15 @@ export default function ForgetPass() {
           <div className="flex-1 h-screen pt-8">
             <img src={logo} className="w-[150px]" alt="Logo" />
             <div className="mt-10">
-              <p className="text-[#C5D86D] text-2xl font-semibold">
-                Forgot Password
-              </p>
+              <p className="text-[#C5D86D] text-2xl font-semibold">Forgot Password</p>
               <div>
-                <form onSubmit={formik.handleSubmit} className="space-y-4 font-[sans-serif] text-[#333] mx-auto mt-10">
+                <form
+                  onSubmit={formik.handleSubmit}
+                  className="space-y-4 font-[sans-serif] text-[#333] mx-auto mt-10"
+                >
                   <div>
                     <p className="text-white">Email address</p>
                     <div className="relative flex items-center">
-                      {/* <EmailIcon className="absolute left-4 text-[#F5F5F5]" /> */}
                       <input
                         type="email"
                         name="email"
@@ -62,18 +58,15 @@ export default function ForgetPass() {
                     type="submit"
                     className="px-6 py-2.5 !mt-20 font-nunito font-bold text-sm border bg-[#F5F5F5] text-black rounded-lg transition-all duration-200 hover:bg-[#000] hover:text-white active:bg-[#000] flex items-center"
                   >
-                    Send Email 
-                     {/* <CheckCircleIcon className="ml-2" /> */}
+                    {isLoading ? 'Sending...' : 'Send Email'}
                   </button>
                 </form>
               </div>
               <div className="grid justify-items-end mt-60">
                 <div>
-                  Login?  
+                  Login?{' '}
                   <span className="text-[#C5D86D] font-semibold underline">
-                    <Link to="/login">
-                      Click here
-                    </Link>
+                    <Link to="/login">Click here</Link>
                   </span>
                 </div>
               </div>

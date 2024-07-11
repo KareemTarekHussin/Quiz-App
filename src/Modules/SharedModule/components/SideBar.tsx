@@ -154,7 +154,7 @@ const logout= ()=>{
             </MenuItem>
 
             <MenuItem 
-            className=" border-2 border-t-0 border-l-0 border-r-0"
+            className=" border-2 border-t-0 border-l-0 border-r-0 fixed-bottom"
               // onClick={logout}
               icon={<div className="bg-menuItem w-16 h-10 flex justify-center items-center rounded-md">
                 <CircleHelp className="w-10 h-9" />

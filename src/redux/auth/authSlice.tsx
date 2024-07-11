@@ -1,18 +1,19 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { baseURL } from "../../utils/axiosinst";
-import { toast } from "react-toastify";
-import Cookies from "universal-cookie";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { baseURL } from '../../utils/axiosinst';
+import { toast } from 'react-toastify';
+import Cookies from 'universal-cookie';
+import { requestHeader } from '../Groups/groupSlice';
 
 const cookies = new Cookies();
 
 export const authSlice = createApi({
-  reducerPath: "auth",
+  reducerPath: 'auth',
   baseQuery: fetchBaseQuery({ baseUrl: baseURL }),
   endpoints: (builder) => ({
     register: builder.mutation({
       query: (user) => ({
-        url: "auth/register",
-        method: "POST",
+        url: 'auth/register',
+        method: 'POST',
         body: user,
       }),
       transformResponse: (response: {
@@ -29,9 +30,7 @@ export const authSlice = createApi({
         };
         message: string;
       }) => {
-        toast.success(response.message,{
-            autoClose: 1500,
-          });
+        toast.success(response.message, { autoClose: 1500 });
         return response;
       },
       transformErrorResponse: (error: {
@@ -41,16 +40,14 @@ export const authSlice = createApi({
         };
         status: number;
       }) => {
-        toast.error(error?.data?.message,{
-            autoClose: 1500,
-          });
+        toast.error(error?.data?.message || 'An error occurred', { autoClose: 1500 });
         return error;
       },
     }),
     login: builder.mutation({
       query: (user) => ({
-        url: "auth/login",
-        method: "POST",
+        url: 'auth/login',
+        method: 'POST',
         body: user,
       }),
       transformResponse: (response: {
@@ -58,24 +55,18 @@ export const authSlice = createApi({
           accessToken: string;
           refreshToken: string;
           profile: {
-            accessToken: string;
-            refreshToken: string;
-            profile: {
-              _id: string;
-              first_name: string;
-              last_name: string;
-              email: string;
-              status: string;
-              role: string;
-            };
+            _id: string;
+            first_name: string;
+            last_name: string;
+            email: string;
+            status: string;
+            role: string;
           };
         };
         message: string;
       }) => {
-        cookies.set("accessToken", response.data.accessToken)
-        toast.success(response.message, {
-            autoClose: 1500,
-          });
+        cookies.set('accessToken', response.data.accessToken);
+        toast.success(response.message, { autoClose: 1500 });
         return response;
       },
       transformErrorResponse: (error: {
@@ -85,14 +76,89 @@ export const authSlice = createApi({
         };
         status: number;
       }) => {
-
-        toast.error(error.data.message, {
-          autoClose: 1500,
-        });
+        toast.error(error?.data?.message || 'An error occurred', { autoClose: 1500 });
+        return error;
+      },
+    }),
+    forgotPassword: builder.mutation({
+      query: (user) => ({
+        url: 'auth/forgot-password',
+        method: 'POST',
+        body: user,
+      }),
+      transformResponse: (response: { message: string }) => {
+        toast.success('Email sent successfully', { autoClose: 1500 });
+        return response;
+      },
+      transformErrorResponse: (error: {
+        data: {
+          message: string;
+          timestamp: string;
+        };
+        status: number;
+      }) => {
+        toast.error(error?.data?.message || 'An error occurred', { autoClose: 1500 });
+        return error;
+      },
+    }),
+    resetPassword: builder.mutation({
+      query: (data) => ({
+        url: 'auth/reset-password',
+        method: 'POST',
+        body: data,
+      }),
+      transformResponse: (response: { message: string }) => {
+        toast.success('Password reset successfully', { autoClose: 1500 });
+        return response;
+      },
+      transformErrorResponse: (error: {
+        data: {
+          message: string;
+          timestamp: string;
+        };
+        status: number;
+      }) => {
+        toast.error(error?.data?.message || 'An error occurred', { autoClose: 1500 });
+        return error;
+      },
+    }),
+    changePassword: builder.mutation({
+      query: (user) => ({
+        url: 'auth/change-password',
+        method: 'POST',
+        body: user,
+        headers:requestHeader
+      }),
+      transformResponse: (response: {
+        data: {
+          accessToken: string;
+          refreshToken: string;
+        };
+        message: string;
+        
+      }) => {
+    
+        toast.success(response.message, { autoClose: 1500 });
+        return response;
+      },
+      transformErrorResponse: (error: {
+        data: {
+          message: string;
+          timestamp: string;
+        };
+        status: number;
+      }) => {
+        toast.error(error?.data?.message || 'An error occurred', { autoClose: 1500 });
         return error;
       },
     }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation} = authSlice;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
+  useChangePasswordMutation
+} = authSlice;

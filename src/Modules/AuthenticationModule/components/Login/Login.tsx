@@ -20,6 +20,7 @@ export default function Login() {
   const [login, { isLoading }] = useLoginMutation();
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
+  
   const onSubmit = async (user: AuthInputs) => {
     const response = await login(user);
     console.log(response);
@@ -40,6 +41,7 @@ export default function Login() {
   return (
     <>
       <AuthContainer header="Continue your learning journey with QuizWiz!">
+     
         <form onSubmit={formik.handleSubmit}>
           <label>Registered email address</label>
           <div>
@@ -87,6 +89,7 @@ export default function Login() {
                 : null}
             </div>
           </div>
+          
           <div className="flex justify-between">
             <button
               type="submit"

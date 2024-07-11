@@ -1,12 +1,9 @@
 import logo from "../../../../assets/images/logo.png";
 import image from "../../../../assets/images/Image.png";
-// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-// import EmailIcon from '@mui/icons-material/Email';
-// import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
-// import KeyIcon from '@mui/icons-material/Key';
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { apiPuplic } from "../../../../utils/axiosinst";
+import { useResetPasswordMutation } from "../../../../redux/auth/authSlice";
+
 interface FormValues {
   email: string;
   otp: string;
@@ -15,26 +12,25 @@ interface FormValues {
 
 export default function ResetPass() {
   const navigate = useNavigate();
+  const [resetPassword] = useResetPasswordMutation();
 
   const formik = useFormik<FormValues>({
     initialValues: {
       email: "",
       otp: "",
-      password: ""
+      password: "",
     },
     onSubmit: async (values) => {
       try {
-        const response = await apiPuplic.post("/auth/reset-password", {
-          email: values.email,
-          otp: values.otp,
-          password: values.password
-        });
-        console.log(response.data);
-        navigate('/login')
-      } catch (error) {
+        const response = await resetPassword(values).unwrap();
+        if ('data' in response) {
+          navigate('/login');
+        }
+      } catch (error: any) {
         console.error(error);
       }
-    }
+    },
+    
   });
 
   return (
@@ -44,15 +40,12 @@ export default function ResetPass() {
           <div className="flex-1 h-screen pt-8">
             <img src={logo} className="w-[150px]" alt="Logo" />
             <div className="mt-10">
-              <p className="text-[#C5D86D] text-2xl font-semibold">
-                Reset Password
-              </p>
+              <p className="text-[#C5D86D] text-2xl font-semibold">Reset Password</p>
               <div>
                 <form onSubmit={formik.handleSubmit} className="space-y-4 font-[sans-serif] text-[#333] mx-auto mt-10">
                   <div>
                     <p className="text-white">Your Email address</p>
                     <div className="relative flex items-center">
-                      {/* <EmailIcon className="absolute left-4 text-[#F5F5F5]" /> */}
                       <input
                         type="email"
                         name="email"
@@ -66,7 +59,6 @@ export default function ResetPass() {
                   <div>
                     <p className="text-white">OTP</p>
                     <div className="relative flex items-center">
-                      {/* <PhoneAndroidIcon className="absolute left-4 text-[#F5F5F5]" /> */}
                       <input
                         type="text"
                         name="otp"
@@ -80,7 +72,6 @@ export default function ResetPass() {
                   <div>
                     <p className="text-white">Password</p>
                     <div className="relative flex items-center">
-                      {/* <KeyIcon className="absolute left-4 text-[#F5F5F5]" /> */}
                       <input
                         type="password"
                         name="password"
@@ -95,12 +86,10 @@ export default function ResetPass() {
                     type="submit"
                     className="px-6 py-2.5 !mt-20 font-nunito font-bold text-sm border bg-[#F5F5F5] text-black rounded-lg transition-all duration-200 hover:bg-[#000] hover:text-white active:bg-[#000] flex items-center"
                   >
-                    {/* Reset <CheckCircleIcon className="ml-2" /> */}
+                    Reset
                   </button>
                 </form>
               </div>
-              {/* input */}
-              {/* button */}
             </div>
           </div>
           <div className="flex-1 hidden md:flex justify-end items-center h-screen">
