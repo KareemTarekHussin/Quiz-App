@@ -15,7 +15,7 @@
   
   .sidebar-container .ps-sidebar-container{
     background-color: #FFF;
-    border: 2px solid #E5E7Eb;
+    border: 0px solid #E5E7Eb;
     border-left: 0;
     border-top: 0;
     height: 100vh;
@@ -23,7 +23,7 @@
       transition: all 0.15s;
     }
     & .ps-menu-button{
-        padding-block: 2rem;
+        padding-block: 2.5rem;
 
     }
     & .ps-menu-button:hover{
@@ -50,6 +50,97 @@
     .sidebar-container .css-1wvake5 {
         border: 0;
     }
+
+    .sidebar-container {
+      transition: transform 0.3s ease;
+    }
+    
+    .sidebar-container.hide {
+      transform: translateX(-100%);
+    }
+    
+    .sidebar-container.show {
+      transform: translateX(0);
+    }
+
+    /*?=========================================================================================  */
+    .responsive-table-categories {
+      padding: 0;
+      li {
+        border-radius: 5px;
+        padding: 10px 30px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+      }
+      .table-header {
+        color: #FFF;
+        background-color: #0D1321;
+        font-family: Poppins;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 24px;
+        text-align: left;
+      }
+      .table-row {
+        font-family: Poppins;
+        border: 2px solid #CCCCCC;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 21px;
+        text-align: left;
+        background-color: #ffffff;
+        box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        align-items: center;
+      }
+      .col-1 {
+        flex-basis: 10%;
+      }
+      .col-2 {
+        flex-basis: 10%;
+      }
+      .col-3 {
+        flex-basis: 15%;
+      }
+      .col-4 {
+        flex-basis: 10%;
+      }
+      .col-5 {
+        flex-basis: 10%;
+      }
+      .col-6 {
+        flex-basis: 10%;
+      }
+    
+    
+      /***************************************/
+    
+      @media all and (max-width: 650px) {
+        .table-header {
+          display: none;
+        }
+    
+        li {
+          display: block;
+        }
+        .col {
+          flex-basis: 100%;
+        }
+        .col {
+          width: 100%;
+          display: flex;
+          padding: 10px 0;
+          &:before {
+            color: #6c7a89;
+            content: attr(data-label);
+            flex-basis: 50%;
+            font-size: 15px;
+          }
+        }
+      }
+    }
+    
 
 
 

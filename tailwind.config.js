@@ -7,7 +7,8 @@ export default {
       fontFamily:{nunito:["Nunito","sans-serif"]},
       colors: {
         mainColor: "#ccc",
-        menuItem: '#FFEDDD'
+        menuItem: '#FFEDDD',
+        rightArrow: '#C5D86D'
       },
       container: {
         center: true,
