@@ -3,9 +3,10 @@ import { useState } from "react";
 
 interface NavbarProps {
   toggleSidebar: () => void;
+  selectedMenuItem: string;
 }
 
-export default function Navbar({ toggleSidebar }: NavbarProps) {
+export default function Navbar({ toggleSidebar, selectedMenuItem }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -15,11 +16,11 @@ export default function Navbar({ toggleSidebar }: NavbarProps) {
   return (
     <nav className="w-full bg-yellow-30 h-20 border-2 border-l-0 flex items-center">
       <div className="bg-green-40 h-20 flex flex-1">
-          <button onClick={toggleSidebar} className="p-5 sm:hidden border-r-2">
-            <Menu />
-          </button>
+        <button onClick={toggleSidebar} className="p-5 sm:hidden border-r-2">
+          <Menu />
+        </button>
         <div className="flex bg-red-10 justify-between items-center flex-1 border-r-2 px-2 gap-4">
-          <h1 className="font-semibold">Groups</h1>
+          <h1 className="font-semibold">{selectedMenuItem}</h1>
           <button className="rounded-full bg-transparent font-semibold py-2 px-4 border border-black">
             New Quiz
           </button>

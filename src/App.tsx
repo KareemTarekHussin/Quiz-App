@@ -17,6 +17,8 @@ import NotFound from "./Modules/SharedModule/components/NotFound";
 import AuthLayout from "./Modules/SharedModule/components/AuthLayout";
 import MasterLayout from "./Modules/SharedModule/components/MasterLayout";
 import ProtectedRoute from "./Modules/SharedModule/components/ProtectedRoute";
+import { ResultsDetails } from "./Modules/ResultsModule/components/ResultsDetails";
+import { CompletedQuizzes } from "./Modules/ResultsModule/components/CompletedQuizzes";
 
 function App() {
   const routes = createBrowserRouter([
@@ -48,7 +50,11 @@ function App() {
         { path: "questions", element: <Questions /> },
         { path: "quizes", element: <Quizes /> },
         { path: "students", element: <StudentsList /> },
-        { path: "results", element: <ResultsTutor /> },
+        { path: "completedquizzes", element: <CompletedQuizzes />,
+          children:[
+            { path: "", element: <ResultsTutor /> },
+            { path:"quiz-details", element:<ResultsDetails/>}
+          ]},
       ],
     },
   ]);

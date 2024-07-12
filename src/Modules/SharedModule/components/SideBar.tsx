@@ -1,13 +1,15 @@
-import { BookOpenCheck, CircleHelp, CircleX, ContactRound, House, Newspaper, SearchCheck, UsersRound } from 'lucide-react';
+import { BookOpenCheck, CircleHelp, ContactRound, House, Newspaper, UsersRound } from 'lucide-react';
 import { useEffect, useState } from "react";
 import { Menu, MenuItem, Sidebar } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
-import logoImg from '../../../assets/images/logo.png'
+import logoImg from '../../../assets/images/logo.png';
+import { useMediaQuery } from '@mui/material';
 
-export default function SideBar({ toggled, toggleSidebar }) {
+export default function SideBar({ toggled, toggleSidebar, setSelectedMenuItem }) {
   const [iconRotation, setIconRotation] = useState(1);
   const [collapsedWidth, setCollapsedWidth] = useState("80px");
   const [collapsed, setCollapsed] = useState(true);
+  const [selectedItem, setSelectedItem] = useState('');
 
   const handleCollapse = () => {
     setCollapsed(!collapsed);
@@ -33,7 +35,6 @@ export default function SideBar({ toggled, toggleSidebar }) {
       setCollapsed(true); // Collapsed on larger screens
     }
   };
-  
 
   useEffect(() => {
     updateCollapsedWidth();
@@ -45,7 +46,27 @@ export default function SideBar({ toggled, toggleSidebar }) {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  const isMobile = useMediaQuery('(max-width:576px)');
+
   
+  
+  const handleMenuItemClick = (item) => {
+    setSelectedItem(item.to);
+    setSelectedMenuItem(item.label); // Update the selected menu item text
+    if (isMobile) {
+      toggleSidebar();
+    }
+  };
+
+  const menuItems = [
+    { to: "", label: "Dashboard", icon: <House className="w-10 h-9" /> },
+    { to: "students", label: "Students", icon: <ContactRound className="w-10 h-9" /> },
+    { to: "groups", label: "Groups", icon: <UsersRound className="w-10 h-9" /> },
+    { to: "quizes", label: "Quizes", icon: <BookOpenCheck className="w-10 h-9" /> },
+    { to: "completedquizzes", label: "CompletedQuizzes", icon: <Newspaper className="w-10 h-9" /> },
+    // { to: "help", label: "Help", icon: <CircleHelp className="w-10 h-9" /> }
+  ];
 
   return (
     <div className='sidebar-container border-r-2 sticky-top'>
@@ -58,10 +79,9 @@ export default function SideBar({ toggled, toggleSidebar }) {
         className=''
       >
         <Menu className='my-14 sm:my-0'>
-
           <MenuItem 
             className='sm:hidden text-blue-950 text-center bg-menuItem'
-            >
+          >
             <div className='flex items-center justify-center '>
               <p className='text-2xl  font-semibold'>QuizApp</p>
               <BookOpenCheck className='ml-1 mt- ' />
@@ -83,77 +103,26 @@ export default function SideBar({ toggled, toggleSidebar }) {
             </div>
           </MenuItem>
 
-          <MenuItem 
-            className='border-2 border-t-0 border-r-0 border-l-0'
-            component={<Link to="" />} 
+          {menuItems.map((item) => (
+            <>
+            <MenuItem 
+            key={item.to}
+            className='border-2 bg-blac relative border-t-0 border-r-0 border-l-0 overflow-hidden'
+            component={<Link to={item.to} />}
+            onClick={() => handleMenuItemClick(item)}
             icon={
-              <div className="bg-menuItem mr-4 sm:mr-0 w-16 h-10 flex justify-center items-center rounded-md">
-                <House className="w-10 h-9" />
+              <div className={`mr-4 sm:mr-0 w-16 h-10 flex justify-center items-center rounded-md ${selectedItem === item.to ? 'bg-blue-950 text-white' : 'bg-menuItem'}`}>
+                {item.icon}
               </div>
             }
           >
-            <span>Dashboard</span>
+            <div className="flex items-center justify-between">
+              <span>{item.label}</span>
+              {selectedItem === item.to && <div className="w-1 h-24 ml-2 absolute right-0 bg-blue-950"></div>}
+            </div>
           </MenuItem>
-
-          <MenuItem 
-            className="border-2 border-t-0 border-l-0 border-r-0"
-            component={<Link to="students" />} 
-            icon={
-              <div className="bg-menuItem mr-4 sm:mr-0 w-16 h-10 flex justify-center items-center rounded-md">
-                <ContactRound className="w-10 h-9" />
-              </div>
-            }
-          >
-            Students
-          </MenuItem>    
-
-          <MenuItem 
-            className="border-2 border-t-0 border-l-0 border-r-0"
-            component={<Link to="groups" />} 
-            icon={
-              <div className="bg-menuItem mr-4 sm:mr-0 w-16 h-10 flex justify-center items-center rounded-md">
-                <UsersRound className="w-10 h-9" />
-              </div>
-            }
-          >
-            Groups
-          </MenuItem>
-
-          <MenuItem 
-            className="border-2 border-t-0 border-l-0 border-r-0"
-            component={<Link to="quizes" />} 
-            icon={
-              <div className="bg-menuItem mr-4 sm:mr-0 w-16 h-10 flex justify-center items-center rounded-md">
-                <BookOpenCheck className="w-10 h-9" />
-              </div>
-            }
-          >
-            Quizes
-          </MenuItem>
-
-          <MenuItem 
-            className="border-2 border-t-0 border-l-0 border-r-0"
-            component={<Link to="results" />} 
-            icon={
-              <div className="bg-menuItem mr-4 sm:mr-0 w-16 h-10 flex justify-center items-center rounded-md">
-                <Newspaper className="w-10 h-9" />
-              </div>
-            }
-          >
-            Results
-          </MenuItem>
-
-          <MenuItem 
-            className="border-2 border-t-0 border-l-0 border-r-0"
-            icon={
-              <div className="bg-menuItem mr-4 sm:mr-0 w-16 h-10 flex justify-center items-center rounded-md">
-                <CircleHelp className="w-10 h-9" />
-              </div>
-            }
-          >
-            Help
-          </MenuItem>
-
+            </>
+          ))}
         </Menu>
       </Sidebar> 
     </div> 
