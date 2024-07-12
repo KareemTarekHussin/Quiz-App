@@ -23,7 +23,7 @@ export default function Login() {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
   const onSubmit = async (user: AuthInputs) => {
-    const response = await login(user);
+    const response = await login (user);
 
     if (response.data?.message === "Login Success") {
       navigate("/DashBoard");

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import logoImg from '../../../assets/images/logo.png';
 import { useMediaQuery } from '@mui/material';
 
-export default function SideBar({ toggled, toggleSidebar, setSelectedMenuItem }) {
+export default function SideBar({ toggled, toggleSidebar, setSelectedMenuItem }:any) {
   const [iconRotation, setIconRotation] = useState(1);
   const [collapsedWidth, setCollapsedWidth] = useState("80px");
   const [collapsed, setCollapsed] = useState(true);
@@ -51,7 +51,7 @@ export default function SideBar({ toggled, toggleSidebar, setSelectedMenuItem })
 
   
   
-  const handleMenuItemClick = (item) => {
+  const handleMenuItemClick = (item:any) => {
     setSelectedItem(item.to);
     setSelectedMenuItem(item.label); // Update the selected menu item text
     if (isMobile) {
@@ -63,8 +63,9 @@ export default function SideBar({ toggled, toggleSidebar, setSelectedMenuItem })
     { to: "", label: "Dashboard", icon: <House className="w-10 h-9" /> },
     { to: "students", label: "Students", icon: <ContactRound className="w-10 h-9" /> },
     { to: "groups", label: "Groups", icon: <UsersRound className="w-10 h-9" /> },
+    { to: "questions", label: "Questions", icon: <BookOpenCheck className="w-10 h-9" /> },
     { to: "quizes", label: "Quizes", icon: <BookOpenCheck className="w-10 h-9" /> },
-    { to: "completedquizzes", label: "CompletedQuizzes", icon: <Newspaper className="w-10 h-9" /> },
+    { to: "completedquizzes", label: "Results", icon: <Newspaper className="w-10 h-9" /> },
     // { to: "help", label: "Help", icon: <CircleHelp className="w-10 h-9" /> }
   ];
 
