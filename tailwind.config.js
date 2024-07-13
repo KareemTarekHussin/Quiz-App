@@ -3,7 +3,7 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      colors:{ 'master-bg': '#E8E8E8','sidebar-bg':'#0000'},
+      colors:{ 'master-bg': '#E8E8E8','sidebar-bg':'#0000','secondaryColor':'#C5D86D'},
       fontFamily:{nunito:["Nunito","sans-serif"]},
       colors: {
         mainColor: "#ccc",

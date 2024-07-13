@@ -38,7 +38,7 @@ export default function Navbar({ toggleSidebar, selectedMenuItem }: NavbarProps)
           <div className="px-4">
             <div className="flex items-center gap-3">
               <p className="text-sm md:text-base">{userInfo.first_name}</p>
-              <p className="text-sm md:text-base">{userInfo.role}</p>
+              <p className="text-sm md:text-base secondaryColor">{userInfo.role}</p>
             </div>
 
             <p className="text-sm md:text-base">{userInfo.email}</p>

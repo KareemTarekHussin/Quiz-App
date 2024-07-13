@@ -40,12 +40,12 @@ import StudentQuizzesPage from './QuizesStudent';
 }
 const Quizzes = () => {
 
-  //* ***************Create New Quiz ***************
+  //Create New Quiz
   const [isOpen, setIsOpen] = useState(false)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
 
-  //* *************** Quiz Code ***************
+  // Quiz info
   const [quizCode, setQuizCode] = useState("")
   const [isOpenInfoModel, setIsOpenInfoModel] = useState(false)
   const openInfoModel = (code: string) => {
@@ -67,8 +67,10 @@ const Quizzes = () => {
 
   return <>
      <>
+     {CookieServices.get("userInfo").role === "Instructor" ? <>
       <CreateQuizModal {...{ isOpen, closeModal, openInfoModel }} />
       <InfoQuizModal {...{ isOpenInfoModel, closeInfoModel, quizCode }} />
+      </> : null}
     </> 
 
     <AnimationContainer>
@@ -119,7 +121,7 @@ const Quizzes = () => {
                 <h6 className='flex items-center text-xs animate-pulse bg-gray-500 h-[10px] w-[70px] rounded-md '>{""}</h6>
               </div> : <div className='flex items-center justify-between font-semibold'>
                 <h3>{"CompletedQuizzes"}</h3>
-                <Link className='flex items-center ' to={"/dashboard/results"}>{"results"}  <ArrowRight className='p-1 ' size={23} strokeWidth={4} color='#C5D86D' /></Link>
+                <Link className='flex items-center ' to={"/dashboard/results"}>{"Results"}  <ArrowRight className='p-1 ' size={24} strokeWidth={6} color='#C5D86D' /></Link>
               </div>}
               <table className='w-full mt-2 border-2 border-separate rounded-md border-slate-400'>
                 <thead className='text-white '>

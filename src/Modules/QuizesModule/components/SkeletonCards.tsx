@@ -7,7 +7,7 @@ const QuizzesCardSkeleton = () => {
 
       <img className='w-[165px] h-[120px] hidden sm:block animate-pulse bg-gray-500 rounded-md' />
 
-       <>  <div className='w-full p-3 '>
+      {CookieServices.get("userInfo").role === "Instructor" ? <>  <div className='w-full p-3 '>
         <h3 className=' mb-2 rounded-md animate-pulse h-[15px] w-[120px] bg-gray-500'>{""}</h3>
         <div className="text-[#777] animate-pulse">
           <h6 className='h-[12px] w-[160px] bg-gray-500 rounded-md'>{""}</h6>
@@ -26,9 +26,7 @@ const QuizzesCardSkeleton = () => {
             <span className='h-[12px] w-[160px] bg-gray-500 rounded-md animate-pulse'>{''}</span>
           </div>
           <h6 className='animate-pulse  mr-1 h-[40px] w-[80px] bg-gray-500 me-5 rounded-full '>{""}</h6>
-
-        </div>
-
+        </div>}
 
     </div>
   </>

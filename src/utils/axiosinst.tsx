@@ -34,7 +34,9 @@ apiToken.interceptors.request.use((config) => {
 }
 
 //Results Endpoints
-
+ const RESULTS_URLS = {
+  resultsList: "/quiz/result",
+}
 
 export {
   apiPuplic,
@@ -43,4 +45,5 @@ export {
   staticURL,
   QUIZZES_URLS,
   QUESTIONS_URLS,
+  RESULTS_URLS,
 };

@@ -52,7 +52,7 @@ export default function Groups() {
   const { data: groups } = useGetGroupsQuery(0);
   const { data: studentsWithOutGroup } = useGetAllStudentsWithoutGroupQuery(0);
 
-  console.log(studentsWithOutGroup, "gjh");
+  // console.log(studentsWithOutGroup, "Students");
 
   const [addGroup, { isLoading }] = useAddGroupMutation();
 

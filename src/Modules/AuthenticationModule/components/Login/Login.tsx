@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-
+import CookieServices from "../../../../utils/Cookies";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContainer from "../../../../components/AuthContainer/AuthContainer";
 import { useState } from "react";
@@ -22,11 +22,14 @@ export default function Login() {
   const [login, { isLoading }] = useLoginMutation();
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
+
   const onSubmit = async (user: AuthInputs) => {
     const response = await login (user);
 
     if (response.data?.message === "Login Success") {
-      navigate("/DashBoard");
+      CookieServices.get("userInfo").role === "Instructor" ? navigate('/DashBoard') :
+      //3lshan el student
+      navigate('/DashBoard/quizes')
     }
   };
   const formik = useFormik<AuthInputs>({

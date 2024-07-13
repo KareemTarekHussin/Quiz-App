@@ -1,11 +1,12 @@
-import { BookOpenCheck, CircleHelp, ContactRound, House, Newspaper, UsersRound } from 'lucide-react';
+import { BookOpenCheck, CircleHelp, ContactRound, House, Newspaper, UsersRound,LogOut,Watch } from 'lucide-react';
 import { useEffect, useState } from "react";
 import { Menu, MenuItem, Sidebar } from 'react-pro-sidebar';
-import { Link } from 'react-router-dom';
-import logoImg from '../../../assets/images/logo.png';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from '@mui/material';
+import CookieServices from '../../../utils/Cookies'
 
 export default function SideBar({ toggled, toggleSidebar, setSelectedMenuItem }:any) {
+  const navigate = useNavigate();
   const [iconRotation, setIconRotation] = useState(1);
   const [collapsedWidth, setCollapsedWidth] = useState("80px");
   const [collapsed, setCollapsed] = useState(true);
@@ -58,17 +59,30 @@ export default function SideBar({ toggled, toggleSidebar, setSelectedMenuItem }:
       toggleSidebar();
     }
   };
-
-  const menuItems = [
+  const role = CookieServices.get("userInfo").role;
+  
+  const instructorItems = [
     { to: "", label: "Dashboard", icon: <House className="w-10 h-9" /> },
     { to: "students", label: "Students", icon: <ContactRound className="w-10 h-9" /> },
     { to: "groups", label: "Groups", icon: <UsersRound className="w-10 h-9" /> },
     { to: "questions", label: "Questions", icon: <BookOpenCheck className="w-10 h-9" /> },
-    { to: "quizes", label: "Quizes", icon: <BookOpenCheck className="w-10 h-9" /> },
-    { to: "completedquizzes", label: "Results", icon: <Newspaper className="w-10 h-9" /> },
+    { to: "quizes", label: "Quizes", icon: <Watch className="w-10 h-9" /> },
+    { to: "results", label: "Results", icon: <Newspaper className="w-10 h-9" /> },
     // { to: "help", label: "Help", icon: <CircleHelp className="w-10 h-9" /> }
   ];
+  const studentItems = [
+    { to: "quizes", label: "Quizes", icon: <Watch className="w-10 h-9" /> },
+    { to: "results", label: "Results", icon: <Newspaper className="w-10 h-9" /> },
+  ];
 
+  const menuItems = role === "Instructor" ? instructorItems : studentItems;
+
+  const logout = () => {
+    CookieServices.remove("userInfo")
+    CookieServices.remove("token")
+    navigate('/')
+  }
+ 
   return (
     <div className='sidebar-container border-r-2 sticky-top'>
       <Sidebar 
@@ -82,6 +96,7 @@ export default function SideBar({ toggled, toggleSidebar, setSelectedMenuItem }:
         <Menu className='my-14 sm:my-0'>
           <MenuItem 
             className='sm:hidden text-blue-950 text-center bg-menuItem'
+             key="logo"
           >
             <div className='flex items-center justify-center '>
               <p className='text-2xl  font-semibold'>QuizApp</p>
@@ -92,6 +107,7 @@ export default function SideBar({ toggled, toggleSidebar, setSelectedMenuItem }:
           <MenuItem
             className='hidden sm:block h-20 border-b-2 bg-yellow-10'
             onClick={handleCollapse}
+             key="collapse"
           >
             <div 
               className="icon-container flex justify-center" 
@@ -124,6 +140,20 @@ export default function SideBar({ toggled, toggleSidebar, setSelectedMenuItem }:
           </MenuItem>
             </>
           ))}
+           <MenuItem 
+            key="logout"
+            className='border-2 bg-blac relative border-t-0 border-r-0 border-l-0 overflow-hidden'
+            onClick={logout}
+            icon={
+              <div className='mr-4 sm:mr-0 w-16 h-10 flex justify-center items-center rounded-md bg-menuItem'>
+                <LogOut className="w-10 h-9" />
+              </div>
+            }
+          >
+            <div className="flex items-center justify-between">
+              <span>Logout</span>
+            </div>
+          </MenuItem>
         </Menu>
       </Sidebar> 
     </div> 
