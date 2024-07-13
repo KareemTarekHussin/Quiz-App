@@ -28,7 +28,7 @@ export default function Login() {
 
     if (response.data?.message === "Login Success") {
       CookieServices.get("userInfo").role === "Instructor" ? navigate('/DashBoard') :
-      //3lshan el student
+      //3lshan el student mafhosh dashboard
       navigate('/DashBoard/quizes')
     }
   };
