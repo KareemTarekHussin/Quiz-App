@@ -63,7 +63,7 @@ export default function SideBar({ toggled, toggleSidebar, setSelectedMenuItem }:
   
   const instructorItems = [
     { to: "", label: "Dashboard", icon: <House className="w-10 h-9" /> },
-    { to: "students", label: "Students", icon: <ContactRound className="w-10 h-9" /> },
+    { to: "student", label: "Students", icon: <ContactRound className="w-10 h-9" /> },
     { to: "groups", label: "Groups", icon: <UsersRound className="w-10 h-9" /> },
     { to: "questions", label: "Questions", icon: <BookOpenCheck className="w-10 h-9" /> },
     { to: "quizes", label: "Quizes", icon: <Watch className="w-10 h-9" /> },

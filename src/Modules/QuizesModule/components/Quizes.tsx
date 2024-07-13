@@ -75,7 +75,7 @@ const Quizzes = () => {
 
     <AnimationContainer>
       <div className='flex w-full gap-3 '>
-        <>
+      {CookieServices.get("userInfo").role === "Instructor" ? <>
 
           <div className='flex flex-col space-y-2 '>
             {!allDataLoaded && Array.from({ length: 3 }, (_, idx) => <div key={idx} className=" hidden sm:block  sm:w-[130px]  md:w-[200px] h-[190px] animate-pulse bg-gray-500  quizBox border-2 border-gray-200  rounded-md ">
@@ -164,9 +164,10 @@ const Quizzes = () => {
             </div>
           </div>
         </>
-          {/* :if condition law instructor aw law student
-          <StudentQuizzesPage {...{ CompletedQuizzes, UpcomingQuizzes, allDataLoaded }} /> */}
-        
+           :
+          //  {/* if condition law instructor aw law student */}
+          <StudentQuizzesPage {...{ CompletedQuizzes, UpcomingQuizzes, allDataLoaded }} />
+      }
 
       </div>
     </AnimationContainer>

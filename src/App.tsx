@@ -51,7 +51,7 @@ function App() {
         { path: "questions", element: <Questions /> },
         { path: "quizes", element: <Quizes /> },
         { path: "quiz-details/:id", element: <QuizDetails /> },
-        { path: "students", element: <StudentsList /> },
+        { path: "student", element: <StudentsList /> },
         { path: "results", element: <CompletedQuizzes />,
           children:[
             { path: "", element: <ResultsTutor /> },

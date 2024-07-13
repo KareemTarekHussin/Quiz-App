@@ -1,4 +1,4 @@
-import { Bell, Mail, AlarmClock, Menu,ChevronDown } from "lucide-react";
+import { Bell, Mail, Menu,ChevronDown } from "lucide-react";
 import CookieServices from "../../../utils/Cookies";
 import { useState } from "react";
 
@@ -26,12 +26,12 @@ export default function Navbar({ toggleSidebar, selectedMenuItem }: NavbarProps)
             New Quiz
           </button>
         </div>
-        <div className="hidden md:flex flex px-10 gap-4 bg-red-5 justify-center border-r-2">
+        <div className=" md:flex flex px-10 gap-4 bg-red-5 justify-center border-r-2">
           <div className="flex justify-center items-center bg-yellow-40">
             <Mail />
           </div>
         </div>
-        <div className="hidden md:flex flex px-10 gap-4 bg-red-5 justify-center border-r-2">
+        <div className=" md:flex flex px-10 gap-4 bg-red-5 justify-center border-r-2">
           <div className="flex justify-center items-center bg-yellow-40">
             <Bell />
           </div>
