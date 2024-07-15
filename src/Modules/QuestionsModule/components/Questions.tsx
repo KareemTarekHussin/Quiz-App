@@ -139,10 +139,10 @@ const Questions = () => {
             </tr>) : null}
             <AnimatePresence initial={false} >
               {currentQuestions?.map(({ title, description, answer, difficulty, type, _id }: IQuestions) => <motion.tr key={_id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ layout: { type: "spring" } }}
+                initial={{  x: '-100%' }}
+                animate={{ x: 0 }}
+                exit={{ y:-50, x: '100%' }}
+                transition={{ ease: "easeInOut" }}
                 layout
                 className='bg-white dark:border-gray-700 hover:bg-blue-200'>
                 <td title={title} className='py-3 font-medium truncate border whitespace-nowrap border-slate-300 text-balance max-w-60'>{title}</td>

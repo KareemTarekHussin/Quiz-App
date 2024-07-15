@@ -3,9 +3,9 @@ interface IProps {
   children: React.ReactNode
 }
 export const opacityAnimation = {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0 }
+  initial: { x: '-100%' },
+  animate: { x: 0 },
+  exit: { x: '100%' }
   }
 const AnimationContainer = ({ children }: IProps) => {
   return <>
